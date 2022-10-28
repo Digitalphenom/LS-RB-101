@@ -1,0 +1,22 @@
+Given a set of names combine them together and print the result
+
+- create a variable and assign it an array of two values 
+- create a method that takes one parameter
+- within the method take the passed in array and access index0 and index1
+
+combine and Print to screen
+
+
+START
+
+# Given a variable with an array set of values
+
+SET name = sedrick, penate
+
+combine_name(name)
+  name[0] + name[1]
+end
+
+PRINT combine_name
+
+END

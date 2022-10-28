@@ -1,0 +1,20 @@
+
+Given a set of integers, return an array with every other value
+
+- create an array of 7 integers
+- create a method that takes one parameter
+- for everyother index remove a integer
+- return a new array with the remaining values
+
+START
+
+SET nums = 8, 2, 29, 5, 8, 16, 4
+
+METHOD(integer)
+  arr = set empty array
+  integers - access every other index and remove it
+  arr = integers
+end
+
+METHOD(nums)
+ 

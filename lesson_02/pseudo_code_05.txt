@@ -1,0 +1,30 @@
+
+Given a set of two array of numbers
+
+- create a method that takes two parameters.
+- access the even and odd index of each array
+ - then swap only even and odd values for one another.
+- merge the two arrays into one
+
+return the result of merging the arrays 
+
+START
+
+METHOD(array1, array2)
+  for each array1 {access each even index}
+  for each array2 {access each odd index}
+  push each even.index into the odd.index
+  push each odd.index into the even.index
+  merge! both arrays into one with the newly swapped values
+END
+
+PRINT METHOD(25645,58671)
+
+
+
+
+
+
+
+
+

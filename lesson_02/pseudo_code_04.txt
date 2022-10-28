@@ -1,0 +1,19 @@
+
+Given a set of characters return the 3rd occurence of a given character. Return nil if less than 3.
+
+- create a variable with a set of string characters
+- create a method that takes two parameters, supply and index
+- return the 3rd occurence of index
+
+START
+
+supply = dsfecxfdse
+
+third_occurence(supply, index)
+  IF supply contains index
+    count the third occurence
+  ELSE 
+    nil
+END
+
+
