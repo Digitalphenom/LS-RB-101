@@ -5,13 +5,17 @@
 
 # answer = Kernel.gets()
 # Kernel.puts(answer)
-
+require 'pry'
 def prompt(message)
   Kernel.puts("=> #{message}")
 end
 
 def valid_number?(num)
-  num.to_i() != 0
+  if num.match(/[.]/)
+    num.to_f()
+  elsif num.match(/\d/)
+    num.to_i()
+   end
 end
 
 prompt("Welcome to Calculator!")
@@ -81,13 +85,13 @@ loop do
   prompt("#{operation_to_message(operator)}the two numbers..")
     case operator
     when "1"
-      result = number1.to_i() + number2.to_i()
+      result = valid_number?(number1) + valid_number?(number2)
     when "2"
-      result = number1.to_i() - number2.to_i()
+      result = valid_number?(number1) - valid_number?(number2)
     when "3"
-      result = number1.to_i() * number2.to_i()
+      result = valid_number?(number1) * valid_number?(number2)
     when "4"
-      result = number1.to_f() / number2.to_f()
+      result = valid_number?(number1) / valid_number?(number2)
     end
   prompt("The result is #{result}")
   prompt("Do you want to perform another calculation? (Y to calculate again)")
