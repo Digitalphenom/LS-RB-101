@@ -1,0 +1,9 @@
+
+welcome: "Welcome to Calculator! Enter your name:"
+name: "Enter your name"
+valid_name: "Make sure to enter a valid name."
+pick_num: "Pick your first number"
+valid_num: "are you sure you entered a valid number?"
+pick_num_two: "Pick your second number"
+wrong_num: "Must choose 1,2,3 or 4"
+try_again?: "Do you want to perform another calculation? (Y to calculate again)"
