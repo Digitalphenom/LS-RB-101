@@ -1,0 +1,61 @@
+
+Given a set of three values (loan amount, annual apr, loan duration)
+
+User Input
+ Get input = name
+ Is name_valid?
+ Get input = annual apr
+ Is number_valid?
+ Get input = annual_apr
+ Is number_valid?
+ Get input = loan_duration
+
+1. Convert annual apr to percent by dividing by 100
+2. Take that value then divide by loan_duration to get your monthly interest rate
+3. Calculate the monthly interest on loan_amount by  monthly_ir * loan_amount =
+4. The result will give your monthly payment
+
+START
+
+GET user name = (name)
+GET annual_apr = 10%
+GET loan_duration = 24(months)
+GET loan_amount = 5,000
+
+user_name(name)
+ if name includes?(numbers || spaces)
+  remove them
+ else 
+  return name
+end
+
+apr_validation(apr)
+ unless apr is Integer(1..99)
+  PRINT enter a valid number
+end
+
+loan_duration_validation(months)
+ 
+
+
+input_values(loan_amount, annual_apr, loan_duration)
+  SET apr_conversion = annual_apr / 100
+  SET monthly_ir = apr_conversion / loan_duration
+  SET monthly_payment = monthly_ir * loan_amount
+  READ monthly_payment
+end
+
+monthly_apr(val)
+  val / 100
+end
+
+monthly_ir(monthly_apr, loan_duration)
+  monthly_apr / loan_duration 
+end
+
+monthly_payment(x,y)
+  monthly_ir() * loan_ammount
+end
+
+END
+
