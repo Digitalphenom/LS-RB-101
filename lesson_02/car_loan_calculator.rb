@@ -35,17 +35,16 @@ loop do
 end
 
 years = 0
-months = 0
 prompt(INPUT["pick_ld"])
 loop do
   prompt(INPUT["years"])
   years = Kernel.gets().chomp()
-
   if valid_number?(years)
     break
   end
 end
 
+prompt(INPUT["processing"])
 annual_interest_rate = interest_rate.to_f() / 100
 monthly_interest_rate = annual_interest_rate / 12
 months =  years.to_i() * 12
