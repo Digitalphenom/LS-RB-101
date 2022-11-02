@@ -15,10 +15,6 @@ def valid_number?(num)
   end
 end
 
-def month_converter(years, months)
-   (years.to_i * 12) + months.to_i
-end
-
 loan_amount = 0
 loop do
   prompt(INPUT["welcome"])
