@@ -16,8 +16,8 @@ def valid_number?(num)
 end
 
 loan_amount = 0
+prompt(INPUT["welcome"])
 loop do
-  prompt(INPUT["welcome"])
   prompt(INPUT["pick_la"])
   loan_amount = Kernel.gets().chomp()
   if valid_number?(loan_amount)
@@ -36,8 +36,8 @@ end
 
 years = 0
 months = 0
+prompt(INPUT["pick_ld"])
 loop do
-  prompt(INPUT["pick_ld"])
   prompt(INPUT["years"])
   years = Kernel.gets().chomp()
 
