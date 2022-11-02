@@ -10,10 +10,11 @@ User Input
  Is number_valid?
  Get input = loan_duration
 
-1. Convert annual apr to percent by dividing by 100
+1. Convert annual apr to float by dividing by 100
 2. Take that value then divide by loan_duration to get your monthly interest rate
-3. Calculate the monthly interest on loan_amount by  monthly_ir * loan_amount =
-4. The result will give your monthly payment
+3. Multiply loan_amount by monthly_ir.
+4. The result will give your monthly ir payment.
+5
 
 START
 
