@@ -3,15 +3,16 @@ VALID_CHOICES = ["rock", "paper", "scissors"]
 def prompt(message)
   Kernel.puts("=> #{message}")
 end
+def win?(first, second)
+  first == "rock" && second == "scissors" ||
+    (first == "paper" && second == "rock") ||
+    (first == "scissors" && second == "paper")
+end
 
-def display_results(choice, computer_choice)
-  if choice == "rock" && computer_choice == "scissors" ||
-    (choice == "paper" && computer_choice == "rock") ||
-    (choice == "scissors" && computer_choice == "paper")
+def display_results(first, second)
+  if win?(first, second)
     prompt("You WIN!!")
-  elsif choice == "scissors" && computer_choice == "rock" ||
-    (choice == "rock" && computer_choice == "paper") ||
-    (choice == "paper" && computer_choice == "scissors")
+  elsif win?(second, first)
     prompt("You Lose..")
   else
     prompt("TIE try again")
