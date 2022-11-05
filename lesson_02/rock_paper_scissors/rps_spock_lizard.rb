@@ -1,32 +1,17 @@
-VALID_CHOICES = ["r", "p", "s", "sp", "l"]
+VALID_CHOICES = ["r", "p", "s", "l", "sp"]
 
 def prompt(message)
   Kernel.puts("=> #{message}")
 end
 
-CHOICE = { "p" => :Paper, "r" => :Rock,
-        "s" => :Scissors, "sp" => :Spock, "l" => :Lizard }
-
-def win?(first, second)
-  first == "r" && (second == "l" || second == "s") ||
-    first == "p" && (second == "sp" || second == "r") ||
-    first == "s" && (second == "l" || second == "p") ||
-    first == "sp" && (second == "r" || second == "s") ||
-    first == "l" && (second == "p" || second == "sp")
-end
-
-def display_results(first, second)
-  if win?(first, second)
-    prompt("You WIN!!")
-  elsif win?(second, first)
-    prompt("You Lose..")
-  else
-    prompt("TIE try again")
-  end
-end
+CHOICE = {  "r" => :Rock,
+            "p" => :Paper,
+            "s" => :Scissors,
+            "l" => :Lizard,
+            "sp" => :Spock }
 
 choice = ""
-
+round = 0
 loop do
   loop do
     operator_prompt = <<~MSG
@@ -41,10 +26,24 @@ loop do
       prompt("Thats not a valid choice.")
     end
   end
-  computer_choice = VALID_CHOICES.sample
-  Kernel.puts("You chose: #{CHOICE[choice]} computer chose:#{CHOICE[choice]}")
+  cpu_choice = VALID_CHOICES.sample
+  cpu_index = VALID_CHOICES.index(cpu_choice)
+  Kernel.puts("You chose: #{CHOICE[choice]}
+  computer chose:#{CHOICE[cpu_choice]}")
+  user_index = VALID_CHOICES.index(choice)
 
-  puts display_results(choice, computer_choice)
+  winning_combinations = [[2, 3], [0, 4], [1, 3], [1, 4], [0, 2]]
+  win = winning_combinations[user_index].include?(cpu_index)
+  tie = winning_combinations[user_index] == winning_combinations[cpu_index]
+
+  if win == true
+    prompt("You WIN!!")
+  elsif tie == true
+    prompt("TIE try again")
+  else
+    prompt("You Lose..")
+  end
+  
   prompt("Do you want to play again??")
   answer = Kernel.gets().chomp()
   break unless answer.downcase().start_with?("y")
