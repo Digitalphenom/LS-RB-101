@@ -4,19 +4,23 @@ def prompt(message)
   Kernel.puts("=> #{message}")
 end
 
-CHOICE = {  "r" => :Rock,
-            "p" => :Paper,
-            "s" => :Scissors,
-            "l" => :Lizard,
-            "sp" => :Spock }
+CHOICE = {  "r" => :ROCK,
+            "p" => :PAPER,
+            "s" => :SCISSORS,
+            "l" => :LIZARD,
+            "sp" => :SPOCK }
 
 choice = ""
 round = 0
+user_count = 0
+cpu_count = 0
+
+prompt("Best Of 5 Rounds Ready?")
+prompt("Take your pick")
 loop do
   loop do
     operator_prompt = <<~MSG
-    What do you choose?
-    R-Rock | P-Paper | S-Scisorrs | SP-Spock | L-Lizard
+    r-Rock | p-Paper | s-Scisorrs | sp-Spock | l-Lizard
     MSG
     prompt(operator_prompt)
     choice = Kernel.gets().chomp()
@@ -28,24 +32,34 @@ loop do
   end
   cpu_choice = VALID_CHOICES.sample
   cpu_index = VALID_CHOICES.index(cpu_choice)
-  Kernel.puts("You chose: #{CHOICE[choice]}
-  computer chose:#{CHOICE[cpu_choice]}")
+
+  Kernel.puts("You Chose: #{CHOICE[choice]}
+Computer Chose: #{CHOICE[cpu_choice]}")
+
   user_index = VALID_CHOICES.index(choice)
-
-  winning_combinations = [[2, 3], [0, 4], [1, 3], [1, 4], [0, 2]]
-  win = winning_combinations[user_index].include?(cpu_index)
-  tie = winning_combinations[user_index] == winning_combinations[cpu_index]
-
+  winners = [[2, 3], [0, 4], [1, 3], [1, 4], [0, 2]]
+  win = winners[user_index].include?(cpu_index)
+  win = nil if winners[user_index] == winners[cpu_index]
   if win == true
     prompt("You WIN!!")
-  elsif tie == true
-    prompt("TIE try again")
+  elsif win.nil?
+    prompt("TIE Try Again")
   else
-    prompt("You Lose..")
+    prompt("You Loose")
   end
-  
-  prompt("Do you want to play again??")
-  answer = Kernel.gets().chomp()
-  break unless answer.downcase().start_with?("y")
+
+  if win == true
+    user_count += 1
+  elsif win == false
+    cpu_count += 1
+  end
+
+  Kernel.puts("=> Round #{round += 1}")
+  Kernel.puts("=> User: #{user_count} Computer: #{cpu_count}")
+  if round == 5
+    break
+  else
+    next
+  end
 end
 prompt("Thank you for playing!")
