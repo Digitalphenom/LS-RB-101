@@ -10,6 +10,17 @@ CHOICE = {  "r" => :ROCK,
             "l" => :LIZARD,
             "sp" => :SPOCK }
 
+DIALOGUE = {  ["r", "s"] => :crushes,
+              ["r", "l"] => :crushes,
+              ["p", "r"] => :covers,
+              ["p", "sp"] => :disproves,
+              ["s", "p"] => :cuts,
+              ["s", "l"] => :decapitates,
+              ["l", "p"] => :eats,
+              ["l", "sp"] => :poisons,
+              ["sp", "r"] => :vaporizes,
+              ["sp", "s"] => :smashes }
+
 choice = ""
 round = 0
 user_count = 0
@@ -33,19 +44,20 @@ loop do
   cpu_choice = VALID_CHOICES.sample
   cpu_index = VALID_CHOICES.index(cpu_choice)
 
+  Kernel.puts("=> Round #{round += 1}")
   Kernel.puts("=> You Chose: #{CHOICE[choice]}
 => Computer Chose: #{CHOICE[cpu_choice]}")
-
+  # (win against) grouped by index - ordered from VALID_CHOICES
   winners = [[2, 3], [0, 4], [1, 3], [1, 4], [0, 2]]
   win = winners[user_index].include?(cpu_index)
   win = nil if winners[user_index] == winners[cpu_index]
 
   if win == true
-    prompt("You WIN!!")
+    prompt("#{CHOICE[choice]} #{DIALOGUE[[choice, cpu_choice]]} #{CHOICE[cpu_choice]} (Win)")
   elsif win.nil?
     prompt("TIE Try Again")
   else
-    prompt("You Loose")
+    prompt("#{CHOICE[cpu_choice]} #{DIALOGUE[[cpu_choice, choice]]} #{CHOICE[choice]} (Loss)")
   end
 
   if win == true
@@ -54,13 +66,14 @@ loop do
     cpu_count += 1
   end
 
-  Kernel.puts("=> Round #{round += 1}")
   Kernel.puts("=> User: #{user_count} Computer: #{cpu_count}")
-
-  if round == 5
-    break
-  else
-    next
-  end
+  break if round == 5
 end
-prompt("Thank you for playing!")
+  if user_count > cpu_count
+    prompt("You WON The Game!")
+  elsif user_count < cpu_count
+    prompt("Sorry You Loss The Game")
+  else
+    prompt("It's A Tie!")
+ end
+  prompt("Thank you for playing!")
