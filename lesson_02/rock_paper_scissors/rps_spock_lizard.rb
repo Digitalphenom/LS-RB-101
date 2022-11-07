@@ -11,16 +11,16 @@ CHOICE = {  "r" => :ROCK,
             "l" => :LIZARD,
             "sp" => :SPOCK }
 
-DIALOGUE = {  ["r", "s"] => :crushes,
-              ["r", "l"] => :crushes,
-              ["p", "r"] => :covers,
-              ["p", "sp"] => :disproves,
-              ["s", "p"] => :cuts,
-              ["s", "l"] => :decapitates,
-              ["l", "p"] => :eats,
-              ["l", "sp"] => :poisons,
-              ["sp", "r"] => :vaporizes,
-              ["sp", "s"] => :smashes }
+DIALOGUE = {  ["r", "s"] => "ROCK crushes SCISSORS",
+              ["r", "l"] => "ROCK crushes LIZARD",
+              ["p", "r"] => "PAPER covers ROCK",
+              ["p", "sp"] => "PAPER disproves SPOCK",
+              ["s", "p"] => "SCISSORS cuts PAPER",
+              ["s", "l"] => "SCISSORS decapitates LIZARD",
+              ["l", "p"] => "LIZARD eats PAPER",
+              ["l", "sp"] => "LIZARD poisons SPOCK",
+              ["sp", "r"] => "SPOCK vaporizes ROCK",
+              ["sp", "s"] => "SPOCK smashes SCISSORS" }
 
 def prompt(message)
   Kernel.puts("=> #{message}")
@@ -28,11 +28,11 @@ end
 
 def who_wins?(win, choice, cpu_choice)
   if win == true
-    prompt("#{CHOICE[choice]} #{DIALOGUE[[choice, cpu_choice]]} #{CHOICE[cpu_choice]} (Win)")
+    prompt("#{DIALOGUE[[choice, cpu_choice]]}")
   elsif win.nil?
     prompt("TIE Try Again")
   else
-    prompt("#{CHOICE[cpu_choice]} #{DIALOGUE[[cpu_choice, choice]]} #{CHOICE[choice]} (Loss)")
+    prompt("#{DIALOGUE[[cpu_choice, choice]]}")
   end
 end
 
