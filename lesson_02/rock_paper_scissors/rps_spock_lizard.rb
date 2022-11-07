@@ -28,11 +28,11 @@ end
 
 def who_wins?(win, choice, cpu_choice)
   if win == true
-    prompt("#{DIALOGUE[[choice, cpu_choice]]}")
-  elsif win.nil?
-    prompt("TIE Try Again")
+    prompt("#{DIALOGUE[[choice, cpu_choice]]} (Win)")
+  elsif win == false
+    prompt("#{DIALOGUE[[cpu_choice, choice]]} (Loss)")
   else
-    prompt("#{DIALOGUE[[cpu_choice, choice]]}")
+    prompt("TIE Try Again")
   end
 end
 
