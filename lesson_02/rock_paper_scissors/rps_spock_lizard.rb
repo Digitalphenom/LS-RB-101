@@ -46,41 +46,55 @@ def end_game_dialogue(user_count, cpu_count)
   end
 end
 
-prompt("Best Of 5 Rounds Ready?")
-prompt("Take your pick")
 loop do
+  prompt("Best Of 5 Rounds Ready?")
+  prompt("Take your pick")
   loop do
-    prompt("r-Rock | p-Paper | s-Scisorrs | sp-Spock | l-Lizard")
-    choice = Kernel.gets().chomp()
-    if VALID_CHOICES.include?(choice)
-      break
-    else
-      prompt("Thats not a valid choice.")
+    loop do
+      prompt("r-Rock | p-Paper | s-Scisorrs | sp-Spock | l-Lizard")
+      choice = Kernel.gets().chomp()
+      if VALID_CHOICES.include?(choice)
+        break
+      else
+        prompt("Thats not a valid choice.")
+      end
     end
-  end
 
-  user_index = VALID_CHOICES.index(choice)
-  cpu_choice = VALID_CHOICES.sample
-  cpu_index = VALID_CHOICES.index(cpu_choice)
+    user_index = VALID_CHOICES.index(choice)
+    cpu_choice = VALID_CHOICES.sample
+    cpu_index = VALID_CHOICES.index(cpu_choice)
 
-  Kernel.puts("=> Round #{round += 1}")
-  Kernel.puts("=> You Chose: #{CHOICE[choice]}
+    Kernel.puts("=> Round #{round += 1}")
+    Kernel.puts("=> You Chose: #{CHOICE[choice]}
 => Computer Chose: #{CHOICE[cpu_choice]}")
-  # (win against) grouped by index - ordered from VALID_CHOICES
-  winners = [[2, 3], [0, 4], [1, 3], [1, 4], [0, 2]]
-  win = winners[user_index].include?(cpu_index)
-  win = nil if winners[user_index] == winners[cpu_index]
+    # (win against) grouped by index - ordered from VALID_CHOICES
+    winners = [[2, 3], [0, 4], [1, 3], [1, 4], [0, 2]]
+    win = winners[user_index].include?(cpu_index)
+    win = nil if winners[user_index] == winners[cpu_index]
 
-  if win == true
-    user_count += 1
-  elsif win == false
-    cpu_count += 1
+    if win == true
+      user_count += 1
+    elsif win == false
+      cpu_count += 1
+    end
+
+    who_wins?(win, choice, cpu_choice)
+
+    Kernel.puts("=> User: #{user_count} Computer: #{cpu_count}")
+    break if round == 5
   end
 
-  who_wins?(win, choice, cpu_choice)
+  end_game_dialogue(user_count, cpu_count)
+  prompt("Thank you for playing!")
+  prompt("Would you like to play again? (Y)/(N)")
+  play_again = Kernel.gets().chomp().downcase
 
-  Kernel.puts("=> User: #{user_count} Computer: #{cpu_count}")
-  break if round == 5
+  if play_again.include?("y")
+    round = 0
+    user_count = 0
+    cpu_count = 0
+    next
+  else
+    break
+  end
 end
-end_game_dialogue(user_count, cpu_count)
-prompt("Thank you for playing!")
