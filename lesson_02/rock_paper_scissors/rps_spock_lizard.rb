@@ -1,8 +1,9 @@
 VALID_CHOICES = ["r", "p", "s", "l", "sp"]
 
-def prompt(message)
-  Kernel.puts("=> #{message}")
-end
+choice = ""
+round = 0
+user_count = 0
+cpu_count = 0
 
 CHOICE = {  "r" => :ROCK,
             "p" => :PAPER,
@@ -21,14 +22,32 @@ DIALOGUE = {  ["r", "s"] => :crushes,
               ["sp", "r"] => :vaporizes,
               ["sp", "s"] => :smashes }
 
-choice = ""
-round = 0
-user_count = 0
-cpu_count = 0
+def prompt(message)
+  Kernel.puts("=> #{message}")
+end
+
+def who_wins?(win, choice, cpu_choice)
+  if win == true
+    prompt("#{CHOICE[choice]} #{DIALOGUE[[choice, cpu_choice]]} #{CHOICE[cpu_choice]} (Win)")
+  elsif win.nil?
+    prompt("TIE Try Again")
+  else
+    prompt("#{CHOICE[cpu_choice]} #{DIALOGUE[[cpu_choice, choice]]} #{CHOICE[choice]} (Loss)")
+  end
+end
+
+def end_game_dialogue(user_count, cpu_count)
+  if user_count > cpu_count
+    prompt("You WON The Game!")
+  elsif user_count < cpu_count
+    prompt("You Loss The Game")
+  else
+    prompt("It's A Tie!")
+  end
+end
 
 prompt("Best Of 5 Rounds Ready?")
 prompt("Take your pick")
-
 loop do
   loop do
     prompt("r-Rock | p-Paper | s-Scisorrs | sp-Spock | l-Lizard")
@@ -53,27 +72,15 @@ loop do
   win = nil if winners[user_index] == winners[cpu_index]
 
   if win == true
-    prompt("#{CHOICE[choice]} #{DIALOGUE[[choice, cpu_choice]]} #{CHOICE[cpu_choice]} (Win)")
-  elsif win.nil?
-    prompt("TIE Try Again")
-  else
-    prompt("#{CHOICE[cpu_choice]} #{DIALOGUE[[cpu_choice, choice]]} #{CHOICE[choice]} (Loss)")
-  end
-
-  if win == true
     user_count += 1
   elsif win == false
     cpu_count += 1
   end
 
+  who_wins?(win, choice, cpu_choice)
+
   Kernel.puts("=> User: #{user_count} Computer: #{cpu_count}")
   break if round == 5
 end
-  if user_count > cpu_count
-    prompt("You WON The Game!")
-  elsif user_count < cpu_count
-    prompt("Sorry You Loss The Game")
-  else
-    prompt("It's A Tie!")
- end
-  prompt("Thank you for playing!")
+end_game_dialogue(user_count, cpu_count)
+prompt("Thank you for playing!")
