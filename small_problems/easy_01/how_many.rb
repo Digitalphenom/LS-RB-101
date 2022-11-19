@@ -4,10 +4,14 @@ vehicles = [
 ]
 
 def count_occurrences(vehicles)
-  puts "car => #{vehicles.count("car")}"
-  puts "truck => #{vehicles.count("truck")}"
-  puts "SUV => #{vehicles.count("SUV")}"
-  puts "motorcycle => #{vehicles.count("motorcycle")}"
+  occurences = {}
+
+  vehicles.uniq.each do |value|
+    occurences[value] = vehicles.count(value)
+  end
+  occurences.each do |key, value|
+    puts "#{key} => #{value}"
+  end
   
 end
 
@@ -26,15 +30,4 @@ print out each element along with num of occurns
 # truck => 3
 # SUV => 1
 # motorcycle => 2
-
-
-
-
-
 =end
-count = 0
-loop do
-  p vehicles[count]
-  count += 1
-  break if count == vehicles.length
-end
