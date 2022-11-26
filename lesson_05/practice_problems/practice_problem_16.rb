@@ -11,17 +11,20 @@
 # sample expected output:
 # => "f65c57f6-a6aa-17a8-faa1-a67f2dc9fa91"
 
+
+def generator
 uuid = []
-count = 0
-sections = [8, 4, 4, 4, 12]
+section_insert = [8, 13, 18, 23]
 
-def random_char
-  [[(0..9).to_a.sample], [("A".."F").to_a.sample]].sample
+  def random_char
+    [[(0..9).to_a.sample], [("A".."F").to_a.sample]].sample
+  end
+  until uuid.size == 32
+    uuid << random_char
+  end
+  section_insert.each do |section|
+    uuid.insert(section, "-")
+  end
+  uuid.join
 end
-until count == 32
-  uuid << random_char
-  count += 1
-end
-uuid = uuid.join
-
-p uuid.insert(8, "-").insert(13, "-").insert(18, "-").insert(23, "-")
+p generator
