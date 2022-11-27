@@ -1,12 +1,12 @@
-[{ a: 'ant', b: 'elephant' }, { c: 'cat' }].select do |hash|
-    hash.any? do |key, value|
-    p value[0] == key.to_s
+[[1, 2], [3, 4]].map do |arr|
+  arr.map do |num|
+    num * 2
   end
 end
 
-# we have a nested array of 2 hash collections.
-# line 1 has a method call (select) on the outer array object.
-# line 2 is another method call (all?) on the hash index elements.
-# line 3 selects the first index of the hash value that is equal to keys.
-# the return value of the second method call is : 
-# => [{ :c => "cat" }]
+# line 1 is a method call on the object outer array. it does not have any side-effects nor a return value.
+
+# we have a nested loop meant to access the sub-arrays elements and transform/modify by * 2.
+# The second method call to arr return value is => [[2,4],[6,8]]
+
+
