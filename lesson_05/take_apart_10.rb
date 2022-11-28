@@ -15,6 +15,7 @@ end
 
 # the first method should iterate through the collection and return a new array with the result from the second method call.
 # the return value is based on the conditional statement integer or array.
-# if the iterations find an element, increment by one.
-# if it is not an element, do another method call to iterate through again and then increment the value by 1.
+# if the first iteration finds an element, increment by one.
+# if it is not an element, do another method call to iterate again and then increment the value by 1.
 # The conditional statement is how you access the deeper values within a nested collection of varying depths.
+
