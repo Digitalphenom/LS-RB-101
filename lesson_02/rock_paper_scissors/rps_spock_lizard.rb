@@ -47,7 +47,7 @@ def end_game_dialogue(user_count, cpu_count)
 end
 
 loop do
-  prompt("Best Of 5 Rounds Ready?")
+  prompt("First To Win 5 Wins Ready?")
   prompt("Take your pick")
   loop do
     loop do
