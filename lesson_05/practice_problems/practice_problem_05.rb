@@ -7,7 +7,7 @@ munsters = {
 }
 
 total = 0
-munsters.each do |k, v|
-  total += munsters[k]["age"] if v["gender"] == "male"
+munsters.each do |key, value|
+  total_two += value["age"] if value["gender"] == "male"
 end
 p total
