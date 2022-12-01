@@ -37,16 +37,26 @@ def initialize_board
   (1..9).each { |num| new_board[num] = INITIAL_MARKER }
   new_board
 end
+# produces a hash {1=>"".. 9}
 
 def empty_squares(brd)
   brd.keys.select { |num| brd[num] == INITIAL_MARKER }
+end
+
+def insert_delimeter(brd)
+  squares_array = empty_squares(brd)
+  if squares_array.size > 1
+    squares_array.join(", ").insert(-2, "or ")
+  else
+    squares_array.join("")
+  end
 end
 
 def player_places_piece!(brd)
   square = ""
 
   loop do
-    prompt "Choose a square (#{empty_squares(brd).join(', ')}):"
+    prompt "Choose a square (#{insert_delimeter(brd)}):"
     square = gets.chomp.to_i
     break if empty_squares(brd).include?(square)
     prompt "Sorry, that's not a valid choice."
