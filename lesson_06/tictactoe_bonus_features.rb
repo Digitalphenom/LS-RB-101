@@ -16,16 +16,15 @@ def prompt(str)
   puts "=> #{str}"
 end
 
-def add_round(game_count)
-  game_count << 1
+def add_round(game)
+  game << 1
 end
 
-
-def add_count(brd, user_count, cpu_count)
+def add_count(brd, user, cpu)
   if detect_winner(brd) == "Player"
-    user_count << 1
+    user << 1
    elsif detect_winner(brd) == "Computer"
-    cpu_count << 1
+    cpu << 1
   end
 
 end
@@ -109,46 +108,46 @@ def detect_winner(brd)
   nil
 end
 
-def initiate_game(user_count, cpu_count, game_count)
+def display_on_screen(brd, user, cpu, game)
   loop do
-    board = initialize_board
+    display_board(brd)
+    prompt "First To Win 5 Rounds Wins The Game!"
+    display_score(user, cpu)
+    prompt "Round #{game.sum}"
+  
+    player_places_piece!(brd)
+    break if someone_won?(brd) || board_full?(brd)
+  
+    computer_places_piece!(brd)
+    break if someone_won?(brd) || board_full?(brd)
+  end
+end
 
-    loop do
-      display_board(board)
-      prompt "First To Win 5 Rounds Wins The Game!"
-      display_score(user_count, cpu_count)
-      prompt "Round #{game_count.sum}"
-
-      player_places_piece!(board)
-      break if someone_won?(board) || board_full?(board)
-
-      computer_places_piece!(board)
-      break if someone_won?(board) || board_full?(board)
-    end
-
-    if someone_won?(board)
-      prompt "#{detect_winner(board)} Won!"
-    else
-      prompt "It's a tie!"
-    end
-
-    add_count(board, user_count, cpu_count)
-    add_round(game_count)
-
-    break if user_count.sum >= 5 || cpu_count.sum >= 5
+def display_winner(brd)
+  if someone_won?(brd)
+    prompt "#{detect_winner(brd)} Won!"
+  else
+    prompt "It's a tie!"
   end
 end
 
 loop do
-  initiate_game(user_count, cpu_count, game_count)
+  loop do
+    board = initialize_board
+    display_on_screen(board, user_count, cpu_count, game_count)
+    display_winner(board)
+    add_count(board, user_count, cpu_count)
+    add_round(game_count)
+    break if user_count.sum >= 2 || cpu_count.sum >= 2
+  end
 
   prompt "Play again? (y or no)"
   answer = gets.chomp
-
   break unless answer.downcase.start_with?("y")
+
   user_count = []
   cpu_count = []
   game_count = [1]
 end
 
-  prompt "Thanks for playing TicTacToe Goodbye!"
+  prompt "Thanks For Playing TicTacToe Goodbye!"
