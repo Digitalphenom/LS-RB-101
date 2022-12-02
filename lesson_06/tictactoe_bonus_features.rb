@@ -8,36 +8,56 @@ INITIAL_MARKER = " "
 PLAYER_MARKER = "X"
 COMPUTER_MARKER = "O"
 
+cpu_count = []
+user_count = []
+game_count = [1]
+
 def prompt(str)
   puts "=> #{str}"
 end
-# rubocop: disable Metrics/AbcSize
 
+def add_round(game_count)
+  game_count << 1
+end
+
+
+def add_count(brd, user_count, cpu_count)
+  if detect_winner(brd) == "Player"
+    user_count << 1
+   elsif detect_winner(brd) == "Computer"
+    cpu_count << 1
+  end
+
+end
+
+# rubocop: disable Metrics/AbcSize
+def display_score(user, cpu)
+  prompt "User Score: #{user.sum} Computer Score: #{cpu.sum}"
+end
 def display_board(brd)
   system "clear"
-  puts "You're #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}"
+  prompt "You're #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}"
   puts ""
-  puts "      |       |"
-  puts "   #{brd[1]}  |   #{brd[2]}   |  #{brd[3]}"
-  puts "      |       |"
-  puts "------+-------+------"
-  puts "      |       |"
-  puts "   #{brd[4]}  |   #{brd[5]}   |  #{brd[6]}"
-  puts "      |       |"
-  puts "------+-------+------"
-  puts "      |       |"
-  puts "   #{brd[7]}  |   #{brd[8]}   |  #{brd[9]}"
-  puts "      |       |"
+  puts "         |       |"
+  puts "      #{brd[1]}  |   #{brd[2]}   |  #{brd[3]}"
+  puts "         |       |"
+  puts "   ------+-------+------"
+  puts "         |       |"
+  puts "      #{brd[4]}  |   #{brd[5]}   |  #{brd[6]}"
+  puts "         |       |"
+  puts "   ------+-------+------"
+  puts "         |       |"
+  puts "      #{brd[7]}  |   #{brd[8]}   |  #{brd[9]}"
+  puts "         |       |"
   puts ""
 end
-# rubocop: enable Metrics/AbcSize
 
+# rubocop: enable Metrics/AbcSize
 def initialize_board
   new_board = {}
   (1..9).each { |num| new_board[num] = INITIAL_MARKER }
   new_board
 end
-# produces a hash {1=>"".. 9}
 
 def empty_squares(brd)
   brd.keys.select { |num| brd[num] == INITIAL_MARKER }
@@ -89,28 +109,46 @@ def detect_winner(brd)
   nil
 end
 
-loop do
-  board = initialize_board
-
+def initiate_game(user_count, cpu_count, game_count)
   loop do
-    display_board(board)
+    board = initialize_board
 
-    player_places_piece!(board)
-    break if someone_won?(board) || board_full?(board)
+    loop do
+      display_board(board)
+      prompt "First To Win 5 Rounds Wins The Game!"
+      display_score(user_count, cpu_count)
+      prompt "Round #{game_count.sum}"
 
-    computer_places_piece!(board)
-    break if someone_won?(board) || board_full?(board)
+      player_places_piece!(board)
+      break if someone_won?(board) || board_full?(board)
+
+      computer_places_piece!(board)
+      break if someone_won?(board) || board_full?(board)
+    end
+
+    if someone_won?(board)
+      prompt "#{detect_winner(board)} Won!"
+    else
+      prompt "It's a tie!"
+    end
+
+    add_count(board, user_count, cpu_count)
+    add_round(game_count)
+
+    break if user_count.sum >= 5 || cpu_count.sum >= 5
   end
+end
 
-  if someone_won?(board)
-    prompt "#{detect_winner(board)} won!"
-  else
-    prompt "It's a tie!"
-  end
+loop do
+  initiate_game(user_count, cpu_count, game_count)
 
   prompt "Play again? (y or no)"
   answer = gets.chomp
+
   break unless answer.downcase.start_with?("y")
+  user_count = []
+  cpu_count = []
+  game_count = [1]
 end
 
-prompt "Thanks for playing TicTacToe Goodbye!"
+  prompt "Thanks for playing TicTacToe Goodbye!"
