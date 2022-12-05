@@ -1,4 +1,5 @@
 require "pry"
+require "pry-byebug"
 
 WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # colums
@@ -71,6 +72,24 @@ def insert_delimeter(brd)
   end
 end
 
+def find_at_risk_square(line, brd, marker)
+  if brd.values_at(*line).count(marker) == 2
+  # select values from line (line are the subArrays of WINNINGLINES) count all "X" equal to 2
+    brd.select{ |k, v| line.include?(k) && v == INITIAL_MARKER }.keys.first
+  # from brd, select lines that include keys and v equal to an empty slot. return the key
+  else
+    nil
+  end
+end
+
+def find_fifth_square(brd)
+  if brd.values_at(5).include?(" ")
+    brd.keys[4]
+  else
+    nil
+  end
+end
+
 def player_places_piece!(brd)
   square = ""
 
@@ -85,7 +104,28 @@ def player_places_piece!(brd)
 end
 
 def computer_places_piece!(brd)
-  square = empty_squares(brd).sample
+  square = nil
+
+  WINNING_LINES.each do |line|
+    square = find_at_risk_square(line, brd, COMPUTER_MARKER)
+    break if square
+  end
+
+  if !square
+    WINNING_LINES.each do |line|
+      square = find_at_risk_square(line, brd, PLAYER_MARKER)
+      break if square
+    end
+  end
+
+  if !square
+    square = find_fifth_square(brd)
+  end
+
+  if !square
+    square = empty_squares(brd).sample
+  end
+
   brd[square] = COMPUTER_MARKER
 end
 
@@ -138,7 +178,7 @@ loop do
     display_winner(board)
     add_count(board, user_count, cpu_count)
     add_round(game_count)
-    break if user_count.sum >= 2 || cpu_count.sum >= 2
+    break if user_count.sum >= 5 || cpu_count.sum >= 5
   end
 
   prompt "Play again? (y or no)"
