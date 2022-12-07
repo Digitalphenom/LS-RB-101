@@ -197,7 +197,7 @@ loop do
   loop do
     board = initialize_board
     first = who_goes_first?()
-    current_player = first == "1" ? "Player" : "Computer"
+    current_player = first == 1 ? "Player" : "Computer"
 
     display_on_screen(board, user_count, cpu_count, game_count, current_player)
     display_winner(board)
