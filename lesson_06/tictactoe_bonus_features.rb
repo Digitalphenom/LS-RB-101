@@ -8,6 +8,7 @@ WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
 INITIAL_MARKER = " "
 PLAYER_MARKER = "X"
 COMPUTER_MARKER = "O"
+ORDER_OPTION = [1, 2]
 
 cpu_count = []
 user_count = []
@@ -148,19 +149,24 @@ def detect_winner(brd)
   nil
 end
 
-def display_on_screen(brd, user, cpu, game)
+def display_on_screen(brd, user, cpu, game, current_player)
   loop do
     display_board(brd)
-    prompt "First To Win 5 Rounds Wins The Game!"
     display_score(user, cpu)
     prompt "Round #{game.sum}"
-  
-    player_places_piece!(brd)
-    break if someone_won?(brd) || board_full?(brd)
-  
-    computer_places_piece!(brd)
-    break if someone_won?(brd) || board_full?(brd)
+    place_piece!(brd, current_player)
+    current_player = alternate_player(current_player)
+    return if someone_won?(brd) || board_full?(brd)
   end
+end
+
+def who_goes_first?
+    prompt "Who goes first?"
+    prompt "> (1) User | > (2) Computer"
+    first = gets.chomp.to_i
+    return first if ORDER_OPTION.include?(first)
+    #system "clear"
+    prompt "Sorry, that's not a valid choice"
 end
 
 def display_winner(brd)
@@ -171,23 +177,47 @@ def display_winner(brd)
   end
 end
 
+def place_piece!(brd, current_player)
+  if current_player == "Player"
+    player_places_piece!(brd)
+  else
+    computer_places_piece!(brd)
+  end
+end
+
+def alternate_player(current_plyr)
+  return "Computer" if current_plyr == "Player"
+  "Player"
+end
+
+
 loop do
+  prompt "Welcome to Tic Tac Toe!"
+  prompt "First To Win 5 Rounds Wins The Game!"
   loop do
     board = initialize_board
-    display_on_screen(board, user_count, cpu_count, game_count)
+    first = who_goes_first?()
+    current_player = first == "1" ? "Player" : "Computer"
+
+    display_on_screen(board, user_count, cpu_count, game_count, current_player)
     display_winner(board)
+
     add_count(board, user_count, cpu_count)
     add_round(game_count)
-    break if user_count.sum >= 5 || cpu_count.sum >= 5
+    if user_count.sum >= 2 || cpu_count.sum >= 2
+      prompt "Play again? (y or no)"
+      answer = gets.chomp
+       if answer.downcase.start_with?("n")
+        break
+       elsif answer.downcase.start_with?("y")
+        user_count = []
+        cpu_count = []
+        game_count = [1]
+        next
+       end
+      end
   end
-
-  prompt "Play again? (y or no)"
-  answer = gets.chomp
-  break unless answer.downcase.start_with?("y")
-
-  user_count = []
-  cpu_count = []
-  game_count = [1]
+  break
 end
 
   prompt "Thanks For Playing TicTacToe Goodbye!"
