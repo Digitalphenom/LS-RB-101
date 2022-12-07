@@ -161,12 +161,13 @@ def display_on_screen(brd, user, cpu, game, current_player)
 end
 
 def who_goes_first?
+  loop do
     prompt "Who goes first?"
     prompt "> (1) User | > (2) Computer"
     first = gets.chomp.to_i
     return first if ORDER_OPTION.include?(first)
-    #system "clear"
     prompt "Sorry, that's not a valid choice"
+  end
 end
 
 def display_winner(brd)
@@ -189,7 +190,6 @@ def alternate_player(current_plyr)
   return "Computer" if current_plyr == "Player"
   "Player"
 end
-
 
 loop do
   prompt "Welcome to Tic Tac Toe!"
