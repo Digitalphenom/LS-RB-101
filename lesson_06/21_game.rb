@@ -23,3 +23,27 @@ dealer_total = 0
   def prompt(str)
     puts "=> #{str}"
   end
+
+
+def display_deck(suits, crd)
+  system "clear"
+  prompt "You're Bottom. Dealer is Top"
+  puts "      ____________         ______________"
+  puts "     |          #{crd}  |       |           #{crd}  |"
+  puts "     |            |       |             |    "
+  puts "     |            |       |             |"
+  puts "     |      #{suits[1]}     |       |       #{suits[2]}     |"
+  puts "     |            |       |             |"
+  puts "     |            |       |             |"
+  puts "     |____________|       |_____________|"
+  puts "                                    "
+  puts "     ____________         ______________"
+  puts "    |          #{crd}  |       |           #{crd}  |"
+  puts "    |            |       |             |    "
+  puts "    |            |       |             |"
+  puts "    |      #{suits[3]}     |       |      #{suits[4]}      |"
+  puts "    |            |       |             |"
+  puts "    |            |       |             |"
+  puts "    |____________|       |_____________|"
+  puts "                                    "
+end
