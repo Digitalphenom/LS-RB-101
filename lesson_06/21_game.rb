@@ -16,9 +16,6 @@ SUITS = {
 
   FACES = ['2', '3', '4', '5', '6', '7', '8', '9', 'J', 'Q', 'K', 'A',]
 
-player_stash = []
-dealer_stash = []
-
 player_total = []
 dealer_total = []
 
@@ -66,13 +63,40 @@ def display_screen(dealer, player, suit, face)
   prompt "Ready? Press (y) to Start"
   start = gets.chomp
   display_deck(suit, face) if start.include?("y")
-  prompt " Dealer #{dealer.sum}          Player #{player.sum}"
+  
 end
 
 def store_card_values(face_value, dealer_stash, player_stash)
-
   player_stash << face_value.values_at(3, 4)
   dealer_stash << face_value.values_at(1, 2)
+end
+
+def convert_player_values(player_stash)
+  player_total = player_stash.map do |deck|
+    deck.map do |value|
+      deck = value.to_i 
+      if deck.zero?
+        deck = 10
+      else
+        deck
+      end
+    end
+  end
+  player_total.flatten
+end
+
+def convert_dealer_values(dealer_stash)
+  dealer_total = dealer_stash.map do |deck|
+    deck.map do |value|
+      deck = value.to_i 
+      if deck.zero?
+        deck = 10
+      else
+        deck
+      end
+    end
+  end
+  dealer_total.flatten
 end
 
 def player_turn()
@@ -87,45 +111,16 @@ def player_turn()
   end
 end
 
-def convert_values(p_total, d_total, player_stash, dealer_stash)
-
-  converted_player_values = player_stash.map do |deck|
-    deck.map do |value|
-      deck = value.to_i 
-      if deck.zero?
-        deck = 10
-      else
-        deck
-      end
-    end
-  end
-
-  converted_dealer_values = dealer_stash.map do |deck|
-    deck.map do |value|
-      deck = value.to_i 
-      if deck.zero?
-        deck = 10
-      else
-        deck
-      end
-    end
-  end
-end
-
-
-
-
-
 # Start Game
 loop do
   suit_value = generate_suit_values()
   face_value = generate_face_values()
 
   display_screen(player_total, dealer_total, suit_value, face_value)
-  store_card_values(face_value, dealer_stash, player_stash)
-  binding.pry
-  convert_values(player_total, dealer_total, dealer_stash, player_stash)
+  store_card_values(face_value, dealer_total, player_total)
+  dealer_total = convert_dealer_values(dealer_total)
+  player_total = convert_player_values(player_total)
+  prompt " Dealer #{dealer_total.sum}          Player #{player_total.sum}"
   player_turn()
-  
   break
 end
