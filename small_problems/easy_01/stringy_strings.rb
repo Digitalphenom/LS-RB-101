@@ -1,3 +1,24 @@
+# 12/18/2022
+# redid this one. was able to solve it much faster.
+def stringy(num)
+  x = []
+  num.times { |i| x << i+1}
+  val = x.map do |num|
+    if num % 2 == 1
+      1
+    else
+      0
+    end
+  end
+  val.join
+end
+
+puts stringy(6) == '101010'
+puts stringy(9) == '101010101'
+puts stringy(4) == '1010'
+puts stringy(7) == '1010101'
+
+puts
 
 def stringy(num)
   collection = []
