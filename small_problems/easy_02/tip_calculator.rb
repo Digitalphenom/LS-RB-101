@@ -1,13 +1,13 @@
 require "pry"
 
 def prompt(str)
-  puts "=>#{str}"
+  puts "=>  #{str}"
 end
 
 prompt "What is your total bill?"
 total = gets.chomp.to_f
 prompt " What tip percentage would you like to give?"
-prompt "1) 10%  2) 15%  3) 25%  4) 30%  5) CUSTOM "
+prompt " 1) 10%  2) 15%  3) 25%  4) 30%  5) CUSTOM "
 tip_amount = gets.chomp
 
 if tip_amount.include?("5")
