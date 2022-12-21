@@ -16,3 +16,27 @@ p oddities([123]) == [123]
 p oddities([]) == []
 p oddities([1, 2, 3, 4, 1]) == [1, 3, 1]
 
+# -----------------------------------------------
+# 12.22
+# additional answers
+
+def oddities(array)
+  evens = array.select.with_index do |num, i|
+    i.even?
+  end 
+  p evens
+end
+
+# -----------------------------------------------
+
+def oddities(array)
+  every_other = []
+  count = 0
+  until count == array.size
+    if count.even?
+    every_other << array[count]
+    end
+    count += 1
+  end
+  p every_other
+end
