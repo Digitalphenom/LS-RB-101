@@ -1,4 +1,3 @@
-require 'pry'
 def string_to_signed_integer(string)
   integer = 0
 
