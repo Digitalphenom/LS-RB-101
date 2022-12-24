@@ -1,5 +1,3 @@
-require "pry"
-
 def short_long_short(str1, str2)
   arr = []
   if str1.length < str2.length
@@ -11,7 +9,7 @@ def short_long_short(str1, str2)
     arr << str1
     arr << str2
   end
-  p arr.join
+  arr.join
 end
 
 # compare str1 with str2
