@@ -1,22 +1,18 @@
-require 'pry'
 def triangle(digit)
   space_count = digit
-  start_count = 0
+  star_count = 0
+
   loop do
-    space_count.times do |i|
-      print "."
+    star_count += 1
+    space_count.times do
+      print " "
     end
-    puts "\n"
-    space_count -= 1
-    break if space_count == 1 
-  end
-  loop do
-    start_count += 1
-    start_count.times do |i|
+    star_count.times do
       print "*"
     end
     puts "\n"
-    break if start_count == digit
+    space_count -= 1
+    break if space_count == 0
   end
 
 end
