@@ -1,36 +1,36 @@
-def after_midnight(minute_string)
+def hour_conversion(hour_string)
   digit_hour = 0
-  digit_minute = 0
-  hour, minute = minute_string.split(":")
-  
+  hour = hour_string.split(":")
+
   hour.each_char do |char|
     digit_hour = digit_hour * 10 + (char.ord - "0".ord)
   end
+  digit_hour
+end
+
+def minute_conversion(minute_string)
+  digit_minute = 0
+  minute = minute_string.split(":")
+
   minute.each_char do |char|
     digit_minute = digit_minute * 10 + (char.ord - "0".ord)
   end
-  
-  digit_hour = digit_hour * 60 + digit_minute
+  digit_minute
+end
+
+def before_midnight(minute_string)
+  digit_hour = digit_hour * 60
+  conversion = digit_hour % -1440
+  -conversion
+end
+
+def after_midnight(minute_string)
+  digit_hour =  + digit_minute
   digit_hour = 0 if digit_hour == 1440
   digit_hour
 end
 
-def before_midnight(minute_string)
-  digit_hour = 0
-  digit_minute = 0
-  hour, minute = minute_string.split(":")
 
-  hour.each_char do |char|
-    digit_hour = digit_hour * 10 + (char.ord - "0".ord)
-  end
-  minute.each_char do |char|
-    digit_minute = digit_minute * 10 + (char.ord - "0".ord)
-  end
-
-  digit_hour = digit_hour * 60 + digit_minute
-  conversion = digit_hour % -1440
-  -conversion
-end
 
 
  after_midnight('00:00') == 0
