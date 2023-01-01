@@ -1,14 +1,24 @@
+def letter_map
+  letter_map = Hash.new
+  ("a".."z").each do |letter|
+    key = letter
+    value = (letter.ord - 32).chr
+    letter_map[key] = value
+  end
+  letter_map  
+end
 
 def word_cap(str)
+  map = letter_map()
   arr = str.split
-  capped = []
-   arr.each do |word|
-    capped << word.capitalize
+  arr.each do |word|
+    if map.keys.include?(word[0])
+      word[0] = map[word[0]]
+    end
   end
-  puts capped.join(" ")
+  puts arr.join(" ")
 end
 
 word_cap('four score and seven') == 'Four Score And Seven'
 word_cap('the javaScript language') == 'The Javascript Language'
 word_cap('this is a "quoted" word') == 'This Is A "quoted" Word'
-
