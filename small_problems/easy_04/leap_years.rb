@@ -1,6 +1,6 @@
 
 def julian_calender(year)
-  year % 4 == 0 ? true : false
+  year % 4 == 0
 end
 
 def leap_year?(year)
@@ -31,5 +31,3 @@ p leap_year?(400)
 # a leap year is any year that is evenly divisible by 4
 # if that year is also divisible by 100, then it is not a leap year
 # unless it is also divisible by 400
-
-
