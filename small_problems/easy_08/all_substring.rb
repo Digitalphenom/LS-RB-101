@@ -21,7 +21,7 @@ def substrings(str)
 
     sub_s << word_finder(group)
   end
-   sub_s
+  p  sub_s
 end
 
 substrings('abcde') == [
