@@ -1,27 +1,24 @@
-require 'pry'
+def leading_substrings(str)
+  accu = []
+  size =  str.size
+  count = 0
 
-
-def word_finder(group)
-  save = []
-  group.each_char do |char|
-      save << char.dup
-      char.chop!
-    end
-  save
+  until count == size
+    accu << str.dup
+    str.chop!
+    count += 1
+  end
+  accu.reverse
 end
 
 def substrings(str)
   result = []
-  sub_s = []
-  str.each_char do |_|
-    result << str.dup
-    str.slice!(0) if str.size > 1
+  (0..str.size).each do |start_indx|
+    current_sub = str[start_indx..-1]
+    current_sub
+    result += leading_substrings(current_sub)
   end
-  result.each do |group|
-
-    sub_s << word_finder(group)
-  end
-  p  sub_s
+   p result
 end
 
 substrings('abcde') == [
@@ -31,11 +28,3 @@ substrings('abcde') == [
   'd', 'de',
   'e'
 ]
-
-# def leading_substrings(string)
-#   result = []
-#   0.upto(string.size - 1) do |index|
-#     result << string[0..index]
-#   end
-#   result
-# end
