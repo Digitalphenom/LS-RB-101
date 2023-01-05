@@ -1,7 +1,9 @@
 def double_consonants(str)
   result = ""
+  regex = /[^0-9aeiou\W]/
+
   str.chars.map do |chr|
-    chr.match?(/[^0-9aeiou\W]+/) ? result += chr * 2 : result += chr
+    chr.match?(regex) ? result += chr * 2 : result += chr
   end
   result
 end
@@ -24,4 +26,3 @@ def double_consonants(string)
   end
   result
 end
-
