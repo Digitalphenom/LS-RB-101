@@ -4,68 +4,25 @@
 
 # from the problem example it looks like the stack value is represented by incomming values. in our case it would be the arguments supplied when calling the method. As they come in they are stored in an array called stack in order of first in last out.
 
-def minilang(str)
-  commands = str.split
+def minilang(commands)
   stack = []
-  register = [0]
-  commands = 
-  commands.map do |chr|
-    chr.match?(/[\d]/) ? chr.to_i : chr
-  end
+  register = 0
 
-  commands.select do |command|
-  case command
-    when Integer then integer_value(register, command)
-    when "PRINT" then display_screen(commands, register)
-    when "PUSH" then push(commands, register, stack)
-    when "MULT" then multi(commands, register, stack)
-    when "ADD" then add_value(commands, register, stack)
-    when "SUB" then sub_value(register, stack)
-    when "DIV" then div_value(register, stack)
-    when "MOD" then mod_value(register, stack)
-    when "POP" then pop_value(register, stack)
+  commands.split.each do |command|
+    case command
+    when Integer then register << command
+    when "PRINT" then puts register
+    when "PUSH" then stack << register
+    when "MULT" then register *= stack.pop
+    when "ADD" then register += stack.pop
+    when "SUB" then register -= stack.pop
+    when "DIV" then register /= stack.pop
+    when "MOD" then register = register % stack.pop
+    when "POP" then register = stack.pop
+    else             register = command.to_i
     end
   end
 end
-
-def integer_value(register, command)
-  register << command
-end
-
-def display_screen(commands, register)
-  # PRINT Print the register value
-  puts "#{register[-1]}"
-end
-
-def push(commands, register, stack)
-  stack << register[-1] if commands.include?("PUSH")
-end
-
-def multi(commands, register, stack)
-  register << register[-1] * stack.pop if commands.include?("MULT")
-end
-
-def add_value(commands, register, stack)
-  # ADD Pops a value from the stack and adds it to the register value, storing the # result in the register.
-  register << register[-1] + stack[-1]
-end
-def sub_value(register, stack)
-  register << register[-1] - stack.pop
-end
-def div_value(register, stack)
-  # DIV Pops a value from the stack and divides it into the register value, storing # the integer result in the register.
-  register << register[-1] / stack.pop
-end
-
-def mod_value(register, stack)
-# MOD Pops a value from the stack and divides it into the register value, storing # the integer remainder of the division in the register.
-register << register[-1] % stack.pop
-end
-
-def pop_value(register, stack)
-  # POP Remove the topmost item from the stack and place in register
-  register << stack.pop
-endirb
 
 #minilang('PRINT')
 # 0
