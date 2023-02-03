@@ -17,4 +17,23 @@ METHOD(integer)
 end
 
 METHOD(nums)
- 
+
+make a variable called nums and create an array of 7 integers. Then define a method called every_other with one parameter named (arr). Within the code block, iterate through each (arr) and remove an element for every odd index. Return the new array with the selected values.
+
+START
+
+SET nums = [8,5,0,8,4,2,8,7]
+
+METHOD(arr)
+  arr.map
+    if element index irb
+     is odd?
+      element
+    else
+      next
+    end
+  end
+  arr
+end
+
+METHOD(nums)
