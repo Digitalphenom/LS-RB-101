@@ -13,7 +13,7 @@ def prompt(message)
   Kernel.puts("=> #{message}")
 end
 
-def valid_number?(num)
+def number_conversion(num)
   if num.match?(/[.]/)
     num.to_f()
   elsif num.match?(/\d/)
@@ -42,7 +42,7 @@ loop do
 
     if number1.match?(/\D/)
       prompt(MESSAGES["valid_num"])
-    elsif valid_number?(number1)
+    elsif number_conversion(number1)
       break
     end
   end
@@ -54,7 +54,7 @@ loop do
     
     if number2.match?(/\D/)
       prompt(MESSAGES["valid_num"])
-    elsif valid_number?(number2)
+    elsif number_conversion(number2)
       break
     end
   end
@@ -90,13 +90,13 @@ loop do
 
     case operator
     when "1"
-      result = valid_number?(number1) + valid_number?(number2)
+      result = number_conversion(number1) + number_conversion(number2)
     when "2"
-      result = valid_number?(number1) - valid_number?(number2)
+      result = number_conversion(number1) - number_conversion(number2)
     when "3"
-      result = valid_number?(number1) * valid_number?(number2)
+      result = number_conversion(number1) * number_conversion(number2)
     when "4"
-      result = valid_number?(number1) / valid_number?(number2)
+      result = number_conversion(number1) / number_conversion(number2)
     end
 
   prompt("The result is #{result}")
