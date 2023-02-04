@@ -14,9 +14,9 @@ def prompt(message)
 end
 
 def valid_number?(num)
-  if num.match(/[.]/)
+  if num.match?(/[.]/)
     num.to_f()
-  elsif num.match(/\d/)
+  elsif num.match?(/\d/)
     num.to_i()
   end
 end
@@ -38,11 +38,12 @@ loop do
   number1 = 0
   loop do
     prompt(MESSAGES["pick_num"])
-    number1 = Kernel.gets().chomp()
-    if valid_number?(number1)
-      break
-    else
+    number1 = Kernel.gets.chomp
+
+    if number1.match?(/\D/)
       prompt(MESSAGES["valid_num"])
+    elsif valid_number?(number1)
+      break
     end
   end
 
@@ -50,10 +51,11 @@ loop do
   loop do
     prompt(MESSAGES["pick_num_two"])
     number2 = Kernel.gets().chomp()
-    if valid_number?(number2)
-      break
-    else
+    
+    if number2.match?(/\D/)
       prompt(MESSAGES["valid_num"])
+    elsif valid_number?(number2)
+      break
     end
   end
 
@@ -68,11 +70,11 @@ loop do
   prompt(operator_prompt)
   operator = 0
   loop do
-    operator = Kernel.gets().chomp()
-    if %w(1 2 3 4).include?(operator)
-      break
-    else
+    operator = gets.chomp
+    if operator.match?(/\D/)
       prompt(MESSAGES["wrong_num"])
+    else
+      break
     end
   end
 
