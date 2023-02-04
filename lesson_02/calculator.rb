@@ -15,21 +15,21 @@ end
 
 def number_conversion(num)
   if num.match?(/[.]/)
-    num.to_f()
+    num.to_f
   elsif num.match?(/\d/)
-    num.to_i()
+    num.to_i
   end
 end
 
 prompt(MESSAGES["welcome"])
-name = prompt("Enter your name")
-name = Kernel.gets().chomp()
-prompt("Welcome #{name}")
 
 loop do
-  if name.empty?()
+  name = prompt("Enter your name")
+  name = Kernel.gets.chomp
+  if name.empty? || name.match?(/\d|\W/)
     prompt(MESSAGES["valid_name"])
   else
+    prompt("Welcome #{name}")
     break
   end
 end
@@ -101,6 +101,6 @@ loop do
 
   prompt("The result is #{result}")
   prompt(MESSAGES["try_again?"])
-  answer = Kernel.gets().chomp()
+  answer = Kernel.gets.chomp
   break unless answer.downcase().start_with?("y")
 end
