@@ -5,7 +5,7 @@ Given a set of integers, return an array with every other value
 - create a method that takes one parameter
 - for everyother index remove a integer
 - return a new array with the remaining values
-
+qq
 START
 
 SET nums = 8, 2, 29, 5, 8, 16, 4
@@ -37,3 +37,30 @@ METHOD(arr)
 end
 
 METHOD(nums)
+
+this is the actual code that ended up working :
+
+nums = [5, 0, 4, 5, 2, 8, 3]
+
+def every_other(arr)
+  new_arr = 
+  arr.map.with_index do |nums, i|
+    if i.zero? || i.even?
+      nums
+    else
+      next
+    end
+  end
+  new_arr.delete_if { |val| val.nil?}
+end
+every_other(nums)
+
+which could be further shortened too :
+
+def every_other(arr)
+  arr.map.with_index do |nums, i|
+    (i.zero? || i.even?) ? nums : next
+  end.delete_if { |val| val.nil?}
+end
+
+every_other(nums)
