@@ -18,6 +18,8 @@ end
 
 METHOD(nums)
 
+=> updated answer 2/3/2023
+
 make a variable called nums and create an array of 7 integers. Then define a method called every_other with one parameter named (arr). Within the code block, iterate through each (arr) and remove an element for every odd index. Return the new array with the selected values.
 
 START
@@ -33,7 +35,7 @@ METHOD(arr)
       next
     end
   end
-  arr
+  arrcode 
 end
 
 METHOD(nums)
