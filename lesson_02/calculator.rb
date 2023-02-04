@@ -6,8 +6,8 @@
 # answer = Kernel.gets()
 # Kernel.puts(answer)
 require 'yaml'
+require 'pry'
 MESSAGES = YAML.load_file('calculator_messages.yml')
-
 
 def prompt(message)
   Kernel.puts("=> #{message}")
@@ -18,7 +18,7 @@ def valid_number?(num)
     num.to_f()
   elsif num.match(/\d/)
     num.to_i()
-   end
+  end
 end
 
 prompt(MESSAGES["welcome"])
@@ -45,6 +45,7 @@ loop do
       prompt(MESSAGES["valid_num"])
     end
   end
+
   number2 = 0
   loop do
     prompt(MESSAGES["pick_num_two"])
@@ -55,6 +56,7 @@ loop do
       prompt(MESSAGES["valid_num"])
     end
   end
+
   operator_prompt = <<-MSG
     What operation would you like to perform?
     1)add
@@ -62,6 +64,7 @@ loop do
     3)multiply
     4)divide
   MSG
+
   prompt(operator_prompt)
   operator = 0
   loop do
@@ -72,21 +75,17 @@ loop do
       prompt(MESSAGES["wrong_num"])
     end
   end
+
   def operation_to_message(op)
-    result = case op
-    when "1"
-      "Adding"
-    when "2"
-      "Subtracting"
-    when "3"
-      "Multiplying"
-    when "4"
-      "Dividing"
-    end
-    result
+    result = { "1" => "Adding",
+               "2" => "Subtracting",
+               "3" => "Multiplying",
+               "4" => "Dividing" }
+    result[op]
   end
 
-  prompt("#{operation_to_message(operator)}the two numbers..")
+  prompt("#{operation_to_message(operator)} the two numbers..")
+
     case operator
     when "1"
       result = valid_number?(number1) + valid_number?(number2)
@@ -97,6 +96,7 @@ loop do
     when "4"
       result = valid_number?(number1) / valid_number?(number2)
     end
+
   prompt("The result is #{result}")
   prompt(MESSAGES["try_again?"])
   answer = Kernel.gets().chomp()
