@@ -40,7 +40,7 @@ loop do
     prompt(MESSAGES["pick_num"])
     number1 = Kernel.gets.chomp
 
-    if number1.count(".") > 1 || number1.match?(/\D/)
+    if number1.count(".") > 1 || number1.match?(/\D\./)
       prompt(MESSAGES["valid_num"])
     elsif number_conversion(number1)
       break
@@ -52,7 +52,7 @@ loop do
     prompt(MESSAGES["pick_num_two"])
     number2 = Kernel.gets.chomp
 
-    if number1.count(".") > 1 || number1.match?(/\D/)
+    if number1.count(".") > 1 || number1.match?(/\D\./)
       prompt(MESSAGES["valid_num"])
     elsif number_conversion(number2)
       break
