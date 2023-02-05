@@ -40,19 +40,19 @@ loop do
     prompt(MESSAGES["pick_num"])
     number1 = Kernel.gets.chomp
 
-    if number1.match?(/\D/)
+    if number1.count(".") > 1 || number1.match?(/\D/)
       prompt(MESSAGES["valid_num"])
     elsif number_conversion(number1)
       break
     end
   end
-
+  
   number2 = 0
   loop do
     prompt(MESSAGES["pick_num_two"])
-    number2 = Kernel.gets().chomp()
-    
-    if number2.match?(/\D/)
+    number2 = Kernel.gets.chomp
+
+    if number1.count(".") > 1 || number1.match?(/\D/)
       prompt(MESSAGES["valid_num"])
     elsif number_conversion(number2)
       break
@@ -71,10 +71,10 @@ loop do
   operator = 0
   loop do
     operator = gets.chomp
-    if operator.match?(/\D/)
-      prompt(MESSAGES["wrong_num"])
-    else
+    if %w(1 2 3 4).include?(operator)
       break
+    elsif operator.empty? || operator.match?(/\d|\W/)
+      prompt(MESSAGES["wrong_num"])
     end
   end
 
@@ -102,5 +102,5 @@ loop do
   prompt("The result is #{result}")
   prompt(MESSAGES["try_again?"])
   answer = Kernel.gets.chomp
-  break unless answer.downcase().start_with?("y")
+  break unless answer.downcase.start_with?("y")
 end
