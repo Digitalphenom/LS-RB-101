@@ -14,7 +14,7 @@ def prompt(message)
 end
 
 def number_conversion(num)
-  if num.match?(/[.]/)
+  if num.match?(/[\.]/)
     num.to_f
   elsif num.match?(/\d/)
     num.to_i
