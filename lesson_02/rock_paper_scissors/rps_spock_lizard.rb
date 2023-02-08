@@ -1,4 +1,5 @@
 require "yaml"
+require "pry"
 PROMPT = YAML.load_file('rps_prompt.yml')
 
 VALID_CHOICES = ["r", "p", "s", "l", "sp"]
@@ -9,33 +10,47 @@ user_count = 0
 cpu_count = 0
 
 CHOICE = {  "r" => :ROCK,
-            "p" => :PAPER,
-            "s" => :SCISSORS,
-            "l" => :LIZARD,
-            "sp" => :SPOCK }
+  "p" => :PAPER,
+  "s" => :SCISSORS,
+  "l" => :LIZARD,
+  "sp" => :SPOCK }
+  
+  DIALOGUE = {  ["r", "s"] => "ROCK crushes SCISSORS",
+    ["r", "l"] => "ROCK crushes LIZARD",
+    ["p", "r"] => "PAPER covers ROCK",
+    ["p", "sp"] => "PAPER disproves SPOCK",
+    ["s", "p"] => "SCISSORS cuts PAPER",
+    ["s", "l"] => "SCISSORS decapitates LIZARD",
+    ["l", "p"] => "LIZARD eats PAPER",
+    ["l", "sp"] => "LIZARD poisons SPOCK",
+    ["sp", "r"] => "SPOCK vaporizes ROCK",
+    ["sp", "s"] => "SPOCK smashes SCISSORS" }
+    
+    WINNERS =  {
+      [:ROCK, :SCISSORS] => :ROCK,
+      [:SCISSORS, :PAPER] => :SCISSORS,
+      [:PAPER, :ROCK] => :PAPER,
+      [:ROCK, :LIZARD] => :ROCK,
+      [:LIZARD, :SPOCK] => :LIZARD,
+      [:SPOCK, :SCISSORS] => :SPOCK,
+      [:SCISSORS, :LIZARD] => :SCISSORS,
+      [:LIZARD, :PAPER] => :LIZARD,
+      [:PAPER, :SPOCK] => :PAPER,
+      [:SPOCK, :ROCK] => :SPOCK
+    }
 
-DIALOGUE = {  ["r", "s"] => "ROCK crushes SCISSORS",
-              ["r", "l"] => "ROCK crushes LIZARD",
-              ["p", "r"] => "PAPER covers ROCK",
-              ["p", "sp"] => "PAPER disproves SPOCK",
-              ["s", "p"] => "SCISSORS cuts PAPER",
-              ["s", "l"] => "SCISSORS decapitates LIZARD",
-              ["l", "p"] => "LIZARD eats PAPER",
-              ["l", "sp"] => "LIZARD poisons SPOCK",
-              ["sp", "r"] => "SPOCK vaporizes ROCK",
-              ["sp", "s"] => "SPOCK smashes SCISSORS" }
-
-def prompt(message)
-  puts "=> #{message}"
-end
-
-def who_wins?(win, choice, cpu_choice)
-  if win == true
-    prompt("#{DIALOGUE[[choice, cpu_choice]]} (Win)")
-  elsif win == false
-    prompt("#{DIALOGUE[[cpu_choice, choice]]} (Loss)")
-  else
-    prompt(PROMPT["tie"])
+  def prompt(message)
+    puts "=> #{message}"
+  end
+  
+  def who_wins?(winner, choice, cpu_choice)
+  
+    if winner == CHOICE[choice]
+      prompt("#{DIALOGUE[[choice, cpu_choice]]} (Win)")
+    elsif winner == CHOICE[cpu_choice]
+      prompt("#{DIALOGUE[[cpu_choice, choice]]} (Loss)")
+    else
+      prompt(PROMPT["tie"])
   end
 end
 
@@ -63,26 +78,21 @@ loop do
       end
     end
 
-    user_index = VALID_CHOICES.index(choice)
+    win_check = []
     cpu_choice = VALID_CHOICES.sample
-    cpu_index = VALID_CHOICES.index(cpu_choice)
-
+    win_check << CHOICE[choice]
+    win_check << CHOICE[cpu_choice]
+    
     puts "=> Round #{round += 1}"
     puts "=> You Chose: #{CHOICE[choice]}"
     puts "=> Computer Chose: #{CHOICE[cpu_choice]}"
 
-    # (win against) grouped by index - ordered from VALID_CHOICES
-    winners = [[2, 3], [0, 4], [1, 3], [1, 4], [0, 2]]
-    win = winners[user_index].include?(cpu_index)
-    win = nil if winners[user_index] == winners[cpu_index]
+    winner = WINNERS[win_check] || winner = WINNERS[win_check.reverse]
 
-    if win == true
-      user_count += 1
-    elsif win == false
-      cpu_count += 1
-    end
+    user_count += 1 if winner == CHOICE[choice]
+    cpu_count += 1 if winner == CHOICE[cpu_choice]
 
-    who_wins?(win, choice, cpu_choice)
+    who_wins?(winner, choice, cpu_choice)
 
     puts "=> User: #{user_count} Computer: #{cpu_count}"
     break if round == 5
