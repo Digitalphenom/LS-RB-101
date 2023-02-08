@@ -1,5 +1,5 @@
 require "yaml"
-PROMPT = YAML.load File.read('rps_prompt.yml')
+PROMPT = YAML.load_file('rps_prompt.yml')
 
 VALID_CHOICES = ["r", "p", "s", "l", "sp"]
 
@@ -26,7 +26,7 @@ DIALOGUE = {  ["r", "s"] => "ROCK crushes SCISSORS",
               ["sp", "s"] => "SPOCK smashes SCISSORS" }
 
 def prompt(message)
-  Kernel.puts("=> #{message}")
+  puts "=> #{message}"
 end
 
 def who_wins?(win, choice, cpu_choice)
@@ -62,34 +62,36 @@ loop do
         prompt(PROMPT["invalid"])
       end
     end
-    
+
     user_index = VALID_CHOICES.index(choice)
     cpu_choice = VALID_CHOICES.sample
     cpu_index = VALID_CHOICES.index(cpu_choice)
-    
-    Kernel.puts("=> Round #{round += 1}")
-    Kernel.puts("=> You Chose: #{CHOICE[choice]} \n=> Computer Chose: #{CHOICE[cpu_choice]}")
-      # (win against) grouped by index - ordered from VALID_CHOICES
-      winners = [[2, 3], [0, 4], [1, 3], [1, 4], [0, 2]]
-      win = winners[user_index].include?(cpu_index)
-      win = nil if winners[user_index] == winners[cpu_index]
-      
-      if win == true
-        user_count += 1
-      elsif win == false
-        cpu_count += 1
-      end
-      
-      who_wins?(win, choice, cpu_choice)
-      
-      Kernel.puts("=> User: #{user_count} Computer: #{cpu_count}")
-      break if round == 5
+
+    puts "=> Round #{round += 1}"
+    puts "=> You Chose: #{CHOICE[choice]}"
+    puts "=> Computer Chose: #{CHOICE[cpu_choice]}"
+
+    # (win against) grouped by index - ordered from VALID_CHOICES
+    winners = [[2, 3], [0, 4], [1, 3], [1, 4], [0, 2]]
+    win = winners[user_index].include?(cpu_index)
+    win = nil if winners[user_index] == winners[cpu_index]
+
+    if win == true
+      user_count += 1
+    elsif win == false
+      cpu_count += 1
     end
-    
-    end_game_dialogue(user_count, cpu_count)
-    prompt(PROMPT["end"])
-    prompt(PROMPT["try_again?"])
-  play_again = Kernel.gets().chomp().downcase
+
+    who_wins?(win, choice, cpu_choice)
+
+    puts "=> User: #{user_count} Computer: #{cpu_count}"
+    break if round == 5
+  end
+
+  end_game_dialogue(user_count, cpu_count)
+  prompt(PROMPT["end"])
+  prompt(PROMPT["try_again?"])
+  play_again = gets.chomp.downcase
 
   if play_again.include?("y")
     round = 0
