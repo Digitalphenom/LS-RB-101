@@ -1,3 +1,6 @@
+require "yaml"
+PROMPT = YAML.load File.read('rps_prompt.yml')
+
 VALID_CHOICES = ["r", "p", "s", "l", "sp"]
 
 choice = ""
@@ -32,61 +35,60 @@ def who_wins?(win, choice, cpu_choice)
   elsif win == false
     prompt("#{DIALOGUE[[cpu_choice, choice]]} (Loss)")
   else
-    prompt("TIE Try Again")
+    prompt(PROMPT["tie"])
   end
 end
 
 def end_game_dialogue(user_count, cpu_count)
   if user_count > cpu_count
-    prompt("You WON The Game!")
+    prompt(PROMPT["win"])
   elsif user_count < cpu_count
-    prompt("You Loss The Game")
+    prompt(PROMPT["lose"])
   else
-    prompt("It's A Tie!")
+    prompt(PROMPT["tie"])
   end
 end
 
 loop do
-  prompt("First To Win 5 Wins Ready?")
-  prompt("Take your pick")
+  prompt(PROMPT["welcome"])
+  prompt(PROMPT["pick"])
   loop do
     loop do
-      prompt("r-Rock | p-Paper | s-Scisorrs | sp-Spock | l-Lizard")
+      prompt(PROMPT["options"])
       choice = Kernel.gets().chomp()
       if VALID_CHOICES.include?(choice)
         break
       else
-        prompt("Thats not a valid choice.")
+        prompt(PROMPT["invalid"])
       end
     end
-
+    
     user_index = VALID_CHOICES.index(choice)
     cpu_choice = VALID_CHOICES.sample
     cpu_index = VALID_CHOICES.index(cpu_choice)
-
+    
     Kernel.puts("=> Round #{round += 1}")
-    Kernel.puts("=> You Chose: #{CHOICE[choice]}
-=> Computer Chose: #{CHOICE[cpu_choice]}")
-    # (win against) grouped by index - ordered from VALID_CHOICES
-    winners = [[2, 3], [0, 4], [1, 3], [1, 4], [0, 2]]
-    win = winners[user_index].include?(cpu_index)
-    win = nil if winners[user_index] == winners[cpu_index]
-
-    if win == true
-      user_count += 1
-    elsif win == false
-      cpu_count += 1
+    Kernel.puts("=> You Chose: #{CHOICE[choice]} \n=> Computer Chose: #{CHOICE[cpu_choice]}")
+      # (win against) grouped by index - ordered from VALID_CHOICES
+      winners = [[2, 3], [0, 4], [1, 3], [1, 4], [0, 2]]
+      win = winners[user_index].include?(cpu_index)
+      win = nil if winners[user_index] == winners[cpu_index]
+      
+      if win == true
+        user_count += 1
+      elsif win == false
+        cpu_count += 1
+      end
+      
+      who_wins?(win, choice, cpu_choice)
+      
+      Kernel.puts("=> User: #{user_count} Computer: #{cpu_count}")
+      break if round == 5
     end
-
-    who_wins?(win, choice, cpu_choice)
-
-    Kernel.puts("=> User: #{user_count} Computer: #{cpu_count}")
-    break if round == 5
-  end
-
-  end_game_dialogue(user_count, cpu_count)
-  prompt("Thank you for playing!")
-  prompt("Would you like to play again? (Y)/(N)")
+    
+    end_game_dialogue(user_count, cpu_count)
+    prompt(PROMPT["end"])
+    prompt(PROMPT["try_again?"])
   play_again = Kernel.gets().chomp().downcase
 
   if play_again.include?("y")
