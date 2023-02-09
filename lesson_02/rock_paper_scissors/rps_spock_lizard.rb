@@ -28,14 +28,14 @@ CHOICE = {  "r" => :ROCK,
     
     WINNERS =  {
       [:ROCK, :SCISSORS] => :ROCK,
-      [:SCISSORS, :PAPER] => :SCISSORS,
-      [:PAPER, :ROCK] => :PAPER,
       [:ROCK, :LIZARD] => :ROCK,
-      [:LIZARD, :SPOCK] => :LIZARD,
-      [:SPOCK, :SCISSORS] => :SPOCK,
+      [:SCISSORS, :PAPER] => :SCISSORS,
       [:SCISSORS, :LIZARD] => :SCISSORS,
-      [:LIZARD, :PAPER] => :LIZARD,
+      [:PAPER, :ROCK] => :PAPER,
       [:PAPER, :SPOCK] => :PAPER,
+      [:LIZARD, :SPOCK] => :LIZARD,
+      [:LIZARD, :PAPER] => :LIZARD,
+      [:SPOCK, :SCISSORS] => :SPOCK,
       [:SPOCK, :ROCK] => :SPOCK
     }
 
@@ -64,18 +64,18 @@ def end_game_dialogue(user_count, cpu_count)
   end
 end
 
+def valid_option?(choice)
+  VALID_CHOICES.include?(choice) ? true : prompt(PROMPT["invalid"])
+end
+
 loop do
   prompt(PROMPT["welcome"])
   prompt(PROMPT["pick"])
   loop do
     loop do
       prompt(PROMPT["options"])
-      choice = Kernel.gets().chomp()
-      if VALID_CHOICES.include?(choice)
-        break
-      else
-        prompt(PROMPT["invalid"])
-      end
+      choice = gets.chomp
+      break if valid_option?(choice) ==  true 
     end
 
     win_check = []
@@ -95,7 +95,7 @@ loop do
     who_wins?(winner, choice, cpu_choice)
 
     puts "=> User: #{user_count} Computer: #{cpu_count}"
-    break if round == 5
+    break if user_count == 3 || cpu_count == 3
   end
 
   end_game_dialogue(user_count, cpu_count)
