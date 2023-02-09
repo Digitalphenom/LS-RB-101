@@ -39,7 +39,7 @@ WINNERS =  {  [:ROCK, :SCISSORS] => :ROCK,
               [:SPOCK, :ROCK] => :SPOCK }
 
 def prompt(message)
-    puts "=> #{message}"
+  puts "=> #{message}"
 end
 
 def clear_screen
@@ -48,25 +48,25 @@ end
 clear_screen()
 
 def who_wins?(winner, choice, cpu_choice)
-    if winner == CHOICE[choice]
-      prompt("#{DIALOGUE[[choice, cpu_choice]]} (Win)")
-    elsif winner == CHOICE[cpu_choice]
-      prompt("#{DIALOGUE[[cpu_choice, choice]]} (Loss)")
-    else
-      prompt(PROMPT["tie"])
-    end
+  if winner == CHOICE[choice]
+    prompt("#{DIALOGUE[[choice, cpu_choice]]} (Win)")
+  elsif winner == CHOICE[cpu_choice]
+    prompt("#{DIALOGUE[[cpu_choice, choice]]} (Loss)")
+  else
+    prompt(PROMPT["tie"])
   end
+end
 
 def end_game_dialogue(user_count, cpu_count)
   compare = user_count[0] <=> cpu_count[0]
   result = case compare
-  when 1
-    "win"
-  when -1
-    "lose"
-  else
-    "tie"
-  end
+           when 1
+             "win"
+           when -1
+             "lose"
+           else
+             "tie"
+           end
   prompt(PROMPT[result])
 end
 
