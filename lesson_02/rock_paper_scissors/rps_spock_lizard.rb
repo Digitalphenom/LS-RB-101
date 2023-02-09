@@ -6,8 +6,8 @@ VALID_CHOICES = ["r", "p", "s", "l", "sp"]
 
 choice = ""
 round = 0
-user_count = 0
-cpu_count = 0
+user_count = [0]
+cpu_count = [0]
 options = []
 
 CHOICE = {  "r" => :ROCK,
@@ -58,13 +58,16 @@ def who_wins?(winner, choice, cpu_choice)
   end
 
 def end_game_dialogue(user_count, cpu_count)
-  if user_count > cpu_count
-    prompt(PROMPT["win"])
-  elsif user_count < cpu_count
-    prompt(PROMPT["lose"])
+  compare = user_count[0] <=> cpu_count[0]
+  result = case compare
+  when 1
+    "win"
+  when -1
+    "lose"
   else
-    prompt(PROMPT["tie"])
+    "tie"
   end
+  prompt(PROMPT[result])
 end
 
 def user_cpu_choice(cpu_choice, choice, options)
@@ -73,6 +76,10 @@ end
 
 def valid_option?(choice)
   VALID_CHOICES.include?(choice) ? true : prompt(PROMPT["invalid"])
+end
+
+def increment_count(count)
+  count[0] += 1
 end
 
 loop do
@@ -94,21 +101,21 @@ loop do
 
     winner = WINNERS[win_check] || WINNERS[win_check.reverse]
 
-    user_count += 1 if winner == CHOICE[choice]
-    cpu_count += 1 if winner == CHOICE[cpu_choice]
+    increment_count(user_count) if winner == CHOICE[choice]
+    increment_count(cpu_count) if winner == CHOICE[cpu_choice]
 
     who_wins?(winner, choice, cpu_choice)
 
-    prompt("=> User: #{user_count} Computer: #{cpu_count}")
+    prompt("User: #{user_count[0]} Computer: #{cpu_count[0]}")
     options = []
 
-    break if user_count == 3 || cpu_count == 3
+    break if user_count[0] == 3 || cpu_count[0] == 3
   end
 
   end_game_dialogue(user_count, cpu_count)
   prompt(PROMPT["end"])
   prompt(PROMPT["try_again?"])
   play_again = gets.chomp.downcase
-  round, user_count, cpu_count = play_again.include?("y") ? [0, 0, 0] : break
+  round, user_count, cpu_count = play_again.include?("y") ? [0, [0], [0]] : break
   clear_screen()
 end
