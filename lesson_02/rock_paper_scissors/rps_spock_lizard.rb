@@ -8,50 +8,50 @@ choice = ""
 round = 0
 user_count = 0
 cpu_count = 0
+options = []
 
 CHOICE = {  "r" => :ROCK,
-  "p" => :PAPER,
-  "s" => :SCISSORS,
-  "l" => :LIZARD,
-  "sp" => :SPOCK }
-  
-  DIALOGUE = {  ["r", "s"] => "ROCK crushes SCISSORS",
-    ["r", "l"] => "ROCK crushes LIZARD",
-    ["p", "r"] => "PAPER covers ROCK",
-    ["p", "sp"] => "PAPER disproves SPOCK",
-    ["s", "p"] => "SCISSORS cuts PAPER",
-    ["s", "l"] => "SCISSORS decapitates LIZARD",
-    ["l", "p"] => "LIZARD eats PAPER",
-    ["l", "sp"] => "LIZARD poisons SPOCK",
-    ["sp", "r"] => "SPOCK vaporizes ROCK",
-    ["sp", "s"] => "SPOCK smashes SCISSORS" }
-    
-    WINNERS =  {
-      [:ROCK, :SCISSORS] => :ROCK,
-      [:ROCK, :LIZARD] => :ROCK,
-      [:SCISSORS, :PAPER] => :SCISSORS,
-      [:SCISSORS, :LIZARD] => :SCISSORS,
-      [:PAPER, :ROCK] => :PAPER,
-      [:PAPER, :SPOCK] => :PAPER,
-      [:LIZARD, :SPOCK] => :LIZARD,
-      [:LIZARD, :PAPER] => :LIZARD,
-      [:SPOCK, :SCISSORS] => :SPOCK,
-      [:SPOCK, :ROCK] => :SPOCK
-    }
+            "p" => :PAPER,
+            "s" => :SCISSORS,
+            "l" => :LIZARD,
+            "sp" => :SPOCK }
 
+DIALOGUE = {  ["r", "s"] => "ROCK crushes SCISSORS",
+              ["r", "l"] => "ROCK crushes LIZARD",
+              ["p", "r"] => "PAPER covers ROCK",
+              ["p", "sp"] => "PAPER disproves SPOCK",
+              ["s", "p"] => "SCISSORS cuts PAPER",
+              ["s", "l"] => "SCISSORS decapitates LIZARD",
+              ["l", "p"] => "LIZARD eats PAPER",
+              ["l", "sp"] => "LIZARD poisons SPOCK",
+              ["sp", "r"] => "SPOCK vaporizes ROCK",
+              ["sp", "s"] => "SPOCK smashes SCISSORS" }
+
+WINNERS =  {  [:ROCK, :SCISSORS] => :ROCK,
+  [:ROCK, :LIZARD] => :ROCK,
+  [:SCISSORS, :PAPER] => :SCISSORS,
+  [:SCISSORS, :LIZARD] => :SCISSORS,
+  [:PAPER, :ROCK] => :PAPER,
+  [:PAPER, :SPOCK] => :PAPER,
+  [:LIZARD, :SPOCK] => :LIZARD,
+  [:LIZARD, :PAPER] => :LIZARD,
+  [:SPOCK, :SCISSORS] => :SPOCK,
+  [:SPOCK, :ROCK] => :SPOCK }
+  
   def prompt(message)
     puts "=> #{message}"
   end
-
-  def who_wins?(winner, choice, cpu_choice)
+  
+system("clear")
+def who_wins?(winner, choice, cpu_choice)
     if winner == CHOICE[choice]
       prompt("#{DIALOGUE[[choice, cpu_choice]]} (Win)")
     elsif winner == CHOICE[cpu_choice]
       prompt("#{DIALOGUE[[cpu_choice, choice]]} (Loss)")
     else
       prompt(PROMPT["tie"])
+    end
   end
-end
 
 def end_game_dialogue(user_count, cpu_count)
   if user_count > cpu_count
@@ -63,8 +63,7 @@ def end_game_dialogue(user_count, cpu_count)
   end
 end
 
-def win_check(cpu_choice, choice)
-  options = []
+def user_cpu_choice(cpu_choice, choice, options)
   options << CHOICE[choice] << CHOICE[cpu_choice]
 end
 
@@ -79,17 +78,17 @@ loop do
     loop do
       prompt(PROMPT["options"])
       choice = gets.chomp
-      break if valid_option?(choice) ==  true 
+      break if valid_option?(choice) == true
     end
 
     cpu_choice = VALID_CHOICES.sample
-    win_check = win_check(cpu_choice, choice)
+    win_check = user_cpu_choice(cpu_choice, choice, options)
 
-    prompt("=> Round #{round += 1}")
-    prompt("=> You Chose: #{CHOICE[choice]}")
-    prompt("=> Computer Chose: #{CHOICE[cpu_choice]}")
+    prompt("Round #{round += 1}")
+    prompt("You Chose: #{CHOICE[choice]}")
+    prompt("Computer Chose: #{CHOICE[cpu_choice]}")
 
-    winner = WINNERS[win_check] || winner = WINNERS[win_check.reverse]
+    winner = WINNERS[win_check] || WINNERS[win_check.reverse]
 
     user_count += 1 if winner == CHOICE[choice]
     cpu_count += 1 if winner == CHOICE[cpu_choice]
@@ -97,6 +96,8 @@ loop do
     who_wins?(winner, choice, cpu_choice)
 
     prompt("=> User: #{user_count} Computer: #{cpu_count}")
+    options = []
+
     break if user_count == 3 || cpu_count == 3
   end
 
@@ -105,4 +106,5 @@ loop do
   prompt(PROMPT["try_again?"])
   play_again = gets.chomp.downcase
   round, user_count, cpu_count = play_again.include?("y") ? [0, 0, 0] : break
+  system("clear")
 end
