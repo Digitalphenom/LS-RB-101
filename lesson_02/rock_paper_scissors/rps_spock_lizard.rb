@@ -28,21 +28,25 @@ DIALOGUE = {  ["r", "s"] => "ROCK crushes SCISSORS",
               ["sp", "s"] => "SPOCK smashes SCISSORS" }
 
 WINNERS =  {  [:ROCK, :SCISSORS] => :ROCK,
-  [:ROCK, :LIZARD] => :ROCK,
-  [:SCISSORS, :PAPER] => :SCISSORS,
-  [:SCISSORS, :LIZARD] => :SCISSORS,
-  [:PAPER, :ROCK] => :PAPER,
-  [:PAPER, :SPOCK] => :PAPER,
-  [:LIZARD, :SPOCK] => :LIZARD,
-  [:LIZARD, :PAPER] => :LIZARD,
-  [:SPOCK, :SCISSORS] => :SPOCK,
-  [:SPOCK, :ROCK] => :SPOCK }
-  
-  def prompt(message)
+              [:ROCK, :LIZARD] => :ROCK,
+              [:SCISSORS, :PAPER] => :SCISSORS,
+              [:SCISSORS, :LIZARD] => :SCISSORS,
+              [:PAPER, :ROCK] => :PAPER,
+              [:PAPER, :SPOCK] => :PAPER,
+              [:LIZARD, :SPOCK] => :LIZARD,
+              [:LIZARD, :PAPER] => :LIZARD,
+              [:SPOCK, :SCISSORS] => :SPOCK,
+              [:SPOCK, :ROCK] => :SPOCK }
+
+def prompt(message)
     puts "=> #{message}"
-  end
-  
-system("clear")
+end
+
+def clear_screen
+  system("clear")
+end
+clear_screen()
+
 def who_wins?(winner, choice, cpu_choice)
     if winner == CHOICE[choice]
       prompt("#{DIALOGUE[[choice, cpu_choice]]} (Win)")
@@ -106,5 +110,5 @@ loop do
   prompt(PROMPT["try_again?"])
   play_again = gets.chomp.downcase
   round, user_count, cpu_count = play_again.include?("y") ? [0, 0, 0] : break
-  system("clear")
+  clear_screen()
 end
