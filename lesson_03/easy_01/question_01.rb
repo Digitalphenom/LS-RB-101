@@ -1,3 +1,2 @@
-# 1 this problem will print out the values in numbers because uniq does not mutate the object.
 
-# 2 The difference between ! and ? is that ! is a bang method
+# => numbers.uniq will return a new array but will not mutate the original numbers object. When puts is used on an array, it will output each value on a new line and return nil.
