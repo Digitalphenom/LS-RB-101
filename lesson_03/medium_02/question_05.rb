@@ -6,11 +6,11 @@ def not_so_tricky_method(a_string_param, an_array_param)
   return a_string_param, an_array_param
 end
 
-p my_string = "pumpkins"
-p my_array = ["pumpkins"]
-p my_array.object_id
-p my_string.object_id
+my_string = "pumpkins"
+my_array = ["pumpkins"]
+
 my_string, my_array = not_so_tricky_method(my_string, my_array)
+
 p my_string.object_id
 p my_array.object_id
 puts "My string looks like this now: #{my_string.object_id}"
