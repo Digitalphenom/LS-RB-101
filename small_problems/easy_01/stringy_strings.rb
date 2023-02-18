@@ -1,3 +1,13 @@
+#2/16/2023
+# this is a more succint solution to my previous ones.
+
+def stringy(digit)
+  array = (1..digit).to_a
+  result = 
+  array.map { |num| num.odd? ? "1" : "0" }
+  result.join
+end
+
 # 12/18/2022
 # redid this one. was able to solve it much faster.
 def stringy(num)
