@@ -17,5 +17,14 @@ elsif option == "p"
   puts "=> The product of the integers between 1 and #{n} is #{product(n)}"
 end
 
+# revised 2/17\23
+# a simpler way is to use #inject
+digit = 5
+(1..digit).inject { |sum, n| sum + n}
+# or even simpler 
+(1..digit).inject(:+)
+(1..digit).inject(:*)
+
+
 
 
