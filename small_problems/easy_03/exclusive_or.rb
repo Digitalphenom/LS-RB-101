@@ -1,5 +1,8 @@
-require 'pry'
+
 def xor?(x, y)
   !(x && y) && (x || y)
-  binding.pry
+end
+# additional approach
+def is_even?(num,num2)
+  (num && !num2 ) || (!num && num2)
 end
