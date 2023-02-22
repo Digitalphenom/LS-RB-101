@@ -1,4 +1,4 @@
-require "pry"
+
 def string_to_integer(string)
   integer = 0
   string.each_char do |char|
@@ -15,23 +15,12 @@ p string_to_integer('570') == 570
 # additional answer 
 
 def string_to_integer(num)
-  num = num.split("")
-  arr = []
+  hash = Hash.new(0)
+  arr = num.chars
   total = 0
-  number_map = {
-    "0" => 0,
-    "1" => 1,
-    "2" => 2,
-    "3" => 3,
-    "4" => 4,
-    "5" => 5,
-    "6" => 6,
-    "7" => 7,
-    "8" => 8,
-    "9" => 9
-}
-  num.map do |element|
-  total = total * 10 + number_map[element] if element
-  end
-    total
+
+  ("0".."9").each.with_index { |char, i| hash[char] = i }
+
+  num.each { |element| total = total * 10 + number_map[element] }
+  total
 end
