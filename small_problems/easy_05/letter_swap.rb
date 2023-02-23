@@ -15,8 +15,7 @@ def swap(word)
   count = 0
 
   loop do
-     words[count][0] = dup[count][-1]
-     words[count][-1] = dup[count][0]
+     words[count][0], words[count][-1] = dup[count][-1], dup[count][0]
      count += 1
      break if count == words.size
   end
