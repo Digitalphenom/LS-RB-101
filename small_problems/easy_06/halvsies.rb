@@ -1,3 +1,15 @@
+
+# 2/24/23 simplified answer
+
+def halvsies(arr)
+  return [arr] << [] if arr.length <= 1
+  
+  size = arr.size
+  size.even? ? arr.each_slice(size / 2).to_a : arr.each_slice(size / 2 + 1).to_a
+end
+
+#+-+-+-+-+-+-+--+-+
+
 def halvsies(digit)
   odd = ((digit.length / 2) + 1); even = digit.count / 2
   o_arr = []; e_arr = []; result = []
