@@ -1,7 +1,49 @@
+
+# my original solutions long winded. heres a simpler approach
+
+def staggered_case(str)
+  flag = true
+  count = 0
+  result = ""
+
+  loop do
+    if flag == true && str[count].match?(/\s+|\d+/) == false
+      result += str[count].upcase
+      flag = false
+    elsif flag == false && str[count].match?(/\s+|\d+/) == false
+      result += str[count].downcase
+      flag = true
+    else
+      result += str[count]
+    end
+    count += 1
+    break if count == str.size
+  end
+  result
+end
+
+# this can be further refactored to:
+
+def staggered_case(str)
+  flag = true
+  result = ""
+
+  str.chars.each do |char|
+    flag ? result += char.upcase : result += char.downcase
+
+    next if char.match?(/[^a-zA-Z]/)
+    flag = !flag
+  end
+  result
+end
+
+# +++++++++++++++++++++++(original solution)+++++++++++++++++++++
+# places digits in a number vault, saves the space and digit index then reinserts them after alphanumeric chars are staggered.
+
 def space_index(str)
   space_index = []
-
   arr = str.chars
+
   arr.each.with_index do |char, i|
     space_index << i if char == " " 
   end
@@ -17,7 +59,9 @@ def digit_index(str)
     digit_index << i if char.match?(/\d/)
   end
   digit_index
-endef number_vault(str)
+end
+
+def number_vault(str)
   number_vault = []
   arr = str.chars
   
@@ -40,7 +84,6 @@ def staggered_case_two(str)
     char.upcase! if i.odd?
   end
   str = arr.join
-
   # re-insert digits
   count = 0
   until count == numbers.length
@@ -51,7 +94,7 @@ def staggered_case_two(str)
    space_index.each do |i|
     str.insert(i, " ")
   end
-   str
+  str
 end
 
  staggered_case_two('I Love Launch School!') == 'I lOvE lAuNcH sChOoL!'
