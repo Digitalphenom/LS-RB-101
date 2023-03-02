@@ -26,3 +26,17 @@ end
 
 swapcase('CamelCase') == 'cAMELcASE'
 swapcase('Tonight on XYZ-TV') == 'tONIGHT ON xyz-tv'
+
+# 2/27/23
+
+def swapcase(str)
+  str.chars.map do |char|
+    if char.match?(/[A-Z]/)
+      (char.ord + 32).chr
+    elsif char.match?(/[a-z]/)
+      (char.ord - 32).chr
+    else
+      char
+    end
+  end.join
+end

@@ -1,6 +1,26 @@
+
+# 2/28/23 alternate approach using a loop to pop values 
+def multiply_all_pairs(arr1, arr2)
+  result = []
+  temp1 = arr1.dup
+  inner_count = 0
+
+  loop do
+    check = temp1.shift
+    loop do
+      result << check * arr2[inner_count]
+      break if inner_count == 3
+      inner_count += 1
+    end
+    break if temp1.empty?
+    inner_count = 0
+  end
+  result.sort
+end
+
 def multiply_all_pairs(multiplier, list)
   result = []
-  i = multiplier.size
+
   list.each do |num|
     result << multiplier[0] * num
     result << multiplier[1] * num
