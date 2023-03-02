@@ -1,3 +1,8 @@
+# original answer can be simplified to 
+def repeater(str)
+  str.chars.map { |char| char * 2}.join
+end
+
 def repeater(str)
   repeater = ""
   start_index = 0

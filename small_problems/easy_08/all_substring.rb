@@ -15,10 +15,22 @@ def substrings(str)
   result = []
   (0..str.size).each do |start_indx|
     current_sub = str[start_indx..-1]
-    current_sub
     result += leading_substrings(current_sub)
   end
    p result
+end
+
+# revised solution 3/2/23
+def substrings(str)
+  result = []
+  count = 0
+
+  until count == (str.length)
+    result << leading_substrings(str[count..-1])
+    count += 1
+  end
+
+  result.map { |group|  group }.flatten
 end
 
 substrings('abcde') == [
