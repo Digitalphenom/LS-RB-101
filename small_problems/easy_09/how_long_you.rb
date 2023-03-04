@@ -20,3 +20,21 @@ word_lengths("") == []
 def word_lengths(string)
   string.split.map { |word| "#{word} #{word.length}" }
 end
+
+# 2/23/23
+# pass in a string sentence
+# return a split array with word count for each word 
+
+# STRATEGY
+# take str and split it into an array of words, iterate through words and determine length, insert length next to each word. return array.
+
+# OBJECTIVES
+# define arr variable and assign split array.
+# iterate through words for each word insert word.length
+#   a) use map to iterate through words that way you can return the new array with inserted values
+# return array
+
+def word_lengths(str)
+  arr = str.split
+  arr.map { |word| word + " " + word.size.to_s }
+end

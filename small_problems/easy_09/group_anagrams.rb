@@ -1,4 +1,4 @@
-def word(words)
+def group_anagrams(words)
   regex_match = []
   result = []
 
@@ -9,14 +9,14 @@ def word(words)
       result << words[i] if words[i].match?(match)
     end
   end
-  p result.uniq
+  result.uniq
 end
 
 words =  ['demo', 'none', 'tied', 'evil', 'dome', 'mode', 'live',
   'fowl', 'veil', 'wolf', 'diet', 'vile', 'edit', 'tide',
   'flow', 'neon']
 
-  word(words)
+  group_anagrams(words)
   # given an array of word matches
   # return a nested ordered array of anagram words
   # anagrams are words that have the exact letters in different order.

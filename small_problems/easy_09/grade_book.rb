@@ -1,7 +1,7 @@
 def get_grade(g1, g2, g3)
   total = g1 + g2 + g3
   average = total / 3
-  #binding.pry
+
   case average
   when 90..100
     'A'

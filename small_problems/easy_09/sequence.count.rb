@@ -1,12 +1,12 @@
-
+# modified
 def sequence(count, digit)
   current = 0
-  
-  arr = (1..count).each_with_object([]) do |i, arr|
+  result = []
+  count.times do
     current += digit
-    arr << current
+    result << current
   end
-  arr
+  result
 end
 
 sequence(5, 1) == [1, 2, 3, 4, 5]
