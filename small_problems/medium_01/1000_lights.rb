@@ -1,3 +1,28 @@
+#3/8/23
+# convoluted but got it to work
+def thousand_lights(lights)
+  arr = (1..lights).to_a
+  temp_arr = arr.dup
+  n = 0
+  count_by = 1
+
+  loop do
+    count_by += 1
+    loop do
+      n += count_by
+      break if n >= lights + 1
+      if temp_arr[n-1].is_a?(Integer)
+        temp_arr[n-1] = nil # remove light
+      elsif temp_arr[n-1].nil?
+        temp_arr[n-1] = arr[n-1] # add light
+      end
+    end
+    n = 0
+    break if count_by >= lights
+  end
+  temp_arr.compact
+end
+# ------------------------------------------------------
 # problem
 # you have a set of switches with one light each that is set to off.
 # for each iteration you will toggle each switch in the following pattern:
