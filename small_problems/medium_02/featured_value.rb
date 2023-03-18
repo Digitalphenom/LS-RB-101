@@ -1,24 +1,36 @@
+# take a single number and return the next (featured number) that is greater than number
 
-def featured(digit)
-  count = 0
-  until count > digit && count.odd? && count % 7 == 0
-    p count += 7
-  end
-   count
+# stategy 
+# loop through multiples of 7 break until i is greater than argument.
+
+# this problems solve by creating a criteria for incrementing
+#   the first is whether the count is greater than the argument
+#   the second is whether the count is odd
+#   the third is whether the count does not include duplicate values.
+# until these criteria are met, we keep incrementing.
+
+def even_values?(num)
+  arr = num.digits
+  result = true
+  arr = %w(1 2 3 4 5 5)
+  arr.each { |num| result = false if arr.count(num) > 1 }
+  result
 end
 
-#featured(12) == 21
-#featured(20) == 21
-#featured(21) == 35
-#featured(997) == 1029
-#featured(1029) == 1043
-featured(999_999) == 1_023_547
-#featured(999_999_987) == 1_023_456_987
+def featured(num)
+  i = 7
+  until i > num && i.odd? && even_values?(i)
+    i += 7
+  end
+  i
+end
+
+p featured(12) == 21
+p featured(20) == 21
+p featured(21) == 35
+p featured(997) == 1029
+p featured(1029) == 1043
+p featured(999_999) == 1_023_547
+p featured(999_999_987) == 1_023_456_987
 
 #featured(9_999_999_999) # -> There is no possible number that fulfills those requirements
-
-# take a digit
-# return the *next featured number that is greater than passed in digit
-# a featured number is an odd number that is a multiple of 7, and its digits occurs once. => 12 next featured num is 21 (7+7+7) = 21
-
-# add the number 7 successively until it is greater than digit && is odd
