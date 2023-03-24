@@ -1,24 +1,23 @@
 
 Given a set of integers, return an array with every other value
 
-- create an array of 7 integers
-- create a method that takes one parameter
-- for everyother index remove a integer
-- return a new array with the remaining values
-qq
+- define a method that takes one array parameter named `array`
+- call the #map method on array with a block argument named `num`
+- chain the #with_index method onto the return value of map with a block argument of i
+- within the code block remove every-other index value => i.even?
+- chain the #compact method to end of call to remove nil values
+- implicitly return a new array with the remaining values
+
 START
 
-SET nums = 8, 2, 29, 5, 8, 16, 4
 
-METHOD(integer)
-  arr = set empty array
-  integers - access every other index and remove it
-  arr = integers
+METHOD(array) 
+arr.map.with_index { |num, i| num if i.even? }end.compact
 end
 
-METHOD(nums)
+METHOD([1,4,7,2,5])
 
-=> updated answer 2/3/2023
+------------(previous answers)-----------------------
 
 make a variable called nums and create an array of 7 integers. Then define a method called every_other with one parameter named (arr). Within the code block, iterate through each (arr) and remove an element for every odd index. Return the new array with the selected values.
 

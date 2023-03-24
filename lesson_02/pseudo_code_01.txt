@@ -1,10 +1,9 @@
 Given a set of two integers
-
 Return the value of adding both integers
-- create a method that takes two parameters
-- use parameter num1,num2 and the addition symbol(+) to produce the 
- - basic math expression (num1 + num2)
-- call the method and supply two integers
+
+- define a method with two parameters named num1 and num2
+- within the methods code block, write the expression (num1 + num2)
+- call the method and pass two arguments
 
 START
 

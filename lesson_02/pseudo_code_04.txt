@@ -1,19 +1,28 @@
 
 Given a set of characters return the 3rd occurence of a given character. Return nil if less than 3.
 
-- create a variable with a set of string characters
-- create a method that takes two parameters, supply and index
-- return the 3rd occurence of index
+ take string and check the count of each occurence. return index position of char that occurs 3 times.
+
+- Define a method that takes two parameters named `supply` and `string`
+- Call #each_char on `string` with block argument of `char`
+- chain #with_index with a block argument of `i`
+- Within the block call the #count method on `string` with an argument of `char`
+- use an if statement on the return value of #count
+- if value == 3 AND supply
+- return i
 
 START
+def check_index(supply, string)
+  value = 0
+  string.each_char.with_index do |char, i|
+    value = i if string.count(char) == 3 && supply 
+  end
+  value
+end
 
-supply = dsfecxfdse
-
-third_occurence(supply, index)
-  IF supply contains index
-    count the third occurence
-  ELSE 
-    nil
+check_index("e", "seefe")
 END
+
+
 
 
