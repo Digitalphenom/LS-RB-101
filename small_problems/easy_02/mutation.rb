@@ -5,12 +5,11 @@ array1.each { |value| array2 << value }
 array1.each { |value| value.upcase! if value.start_with?('C', 'S') }
 puts array2
 
-# line 2 creates a new array named (array1)
-# line 3 creates an empty array named (array2)
-# line 4 uses the each method on (array1) to iterate over each of its values and 
-# append each value into the empty (array2)
-# line 5 uses the each method on (array1) to iterate over each value.
-# upon each pass, it uses the destructive upcase! method to uppercase all letters that beging with the letters "C", and "S"
+# line 2 initializes a variable named (array1) and assigns it an array object.
+# line 3 initializes a variable named (array2) and assigns it an empty array.
+# line 4 calls the each method on (array1) with a block argument named value, within the block #each iterates over each value and appends each value into the empty (array2)
+# line 5 calls the #each method on (array1) and iterates over each value
+# upon each pass, it calls destructive #upcase! and uppercases letters that begin with the letters "C", and "S"
 
 # what will array2 print?
 # we know that line 4 destructively appends each value from array1 to array 2
