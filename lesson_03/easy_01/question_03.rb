@@ -1,11 +1,10 @@
 advice = "Few things in life are as important as house training your pet dinosaur."
 
-advice.gsub!("important", "urgent")
+p advice.gsub!("important", "urgent")
 
-advice = advice.split 
-advice.map! { |char| char == "important" ? char = "urgent" : char }
-advice.join(" ")
+advice = "Few things in life are as important as house training your pet dinosaur."
 
-puts advice
+p advice.split.map { |char| char == "important" ? char = "urgent" : char }.join(" ")
+
 
 
