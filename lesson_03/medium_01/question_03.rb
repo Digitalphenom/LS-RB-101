@@ -1,25 +1,19 @@
 def factors(number)
   divisor = number
   factors = []
-  if number == 0 || number.negative?
-    return "Please enter a valid character"
-  end
+
+  return "Please enter a valid character" if number == 0 || number.negative?
   until divisor == 0
     factors << number / divisor if number % divisor == 0
     divisor -= 1
   end 
   factors
 end
-# the code below accomplishes this more succintly.
-# while divisor > 0
-# factors << number / divisor if number % divisor == 0
-# divisor -= 1
-# end
 
 p factors(0)
 p factors(-45)
 
-# The purpose of number % divisor == 0
-#is to determine if (number is divisible by divisor an even amount of times) 0 means true.
-#the purpose of line 11 is to return the value of factor
-# after the loop has finishe
+# the modulo operator divides a given number with another and returns the remainder
+# the purpose of == 0 is to check if the modulos return value is equal to 0 which would indicate the value is an integer and that it has no remainder which would further indicate that the value is even
+
+# a methods return values are based on the last evaluated statement. factors is placed on the last line so that the method return value is the factors array.
