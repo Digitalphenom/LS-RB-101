@@ -9,22 +9,19 @@ end
 my_string = "pumpkins"
 my_array = ["pumpkins"]
 
-my_string, my_array = not_so_tricky_method(my_string, my_array)
+my_new_string, my_new_array = not_so_tricky_method(my_string, my_array)
 
 p my_string.object_id
 p my_array.object_id
-puts "My string looks like this now: #{my_string.object_id}"
-puts "My array looks like this now: #{my_array.object_id}"
-puts "My string looks like this now: #{my_string}"
-puts "My array looks like this now: #{my_array}"
+puts "My string looks like this now: #{my_new_string.object_id}"
+puts "My array looks like this now: #{my_new_array.object_id}"
+puts "My string looks like this now: #{my_new_string}"
+puts "My array looks like this now: #{my_new_array}"
 
-# how can the method not mutate the argument passed through but should still print to my_string = "pumpkinsrutabaga" & my_array = ["pumplins", "rutabaga"]?
+# how can the method not mutate the argument passed to it, but still output "pumpkinsrutabaga" & ["pumplins", "rutabaga"]?
 
-#String += works as re-assignment and creates a new string object within the method definition.
+# (+=) works as re-assignment and will return a new object 
+# Knowing this, replace the shovel operator with (+=) and enclose the string object in brackets. This will add the string to the array and return a new array object with the desired updated values
+# we then explicitly return the string and array variable and capture it in a set of variables upon invocation.
 
-# The reference to this new object is assigned to a_string_param.
-
-# The local variable a_string_param  now points to "pumpkinsrutabaga". This means that a_string_param and my_string are no longer the same object.
-
-# We then return that value and assign it to my_string. my string will now hold the object created inside the method.
 

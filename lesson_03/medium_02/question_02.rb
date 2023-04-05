@@ -6,10 +6,4 @@ puts a.object_id # 85
 puts b.object_id # 85
 puts c.object_id # 85
 
-# the object 42 is assigned to a. a now references 42 with an object id of 20
-# the same applies to line two but instead with a new label b and new object id 40.
-# this is the same exact problem as before except with integers. 
-# this leads me to believe that its a trick question, the behavior exhibited in the previous exercise will likely not apply here.
-# from what I understand integers are immutable but I dont know if that has any ramifications to this exercises.
-
-# **ah yes because integers are immutable this means there can only be one of each object. this means that the object slapped on with the label a is the same object being referenced to b and then c. therefore the answer is 85 for all.
+# integers are immutable, although there can be multiple instances of a given immutable object ie (42) they all reference themselves. This means that all variables that reference the same object (42) are indeed the same object. This may lead you to believe that if you alter one, it will affect all because after all they reference themselves. However immutable object cannot be changed or altered in anyway. They can on be re-assigned which returns a completely new object. Because of that, when you update one the changes dont apply to the rest. The answer is 85 for all.
