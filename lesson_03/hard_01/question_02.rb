@@ -6,7 +6,6 @@ puts informal_greeting  #  => "hi there"
 puts greetings
 
 # does (informal_greeting = greetings[:a]) mutate greeting?
-# on line 2, it does neither is simply extract the value "hi" from greeting and assigns it to informal_greeting. informal_greeting now points to greeting
-# both greeting and informal_greeting hold different object_id
-# on line 3 << mutates informal_greeting.
-# greeting will now hold the same value because it points to the same object.
+# line 2 accesses and assigns the value "hi" to informal_greeting. informal greeting is refencing the same value within the collection.
+# line 3 << mutates informal_greeting.
+# greeting will hold the same value because it points to the same object informal_greeting is pointing to.
