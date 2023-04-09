@@ -1,25 +1,16 @@
 
 require "pry"
 def reverse_words_two(words)
-  words = words.split
-  accu = []
-  words.each do  |word, indx| 
-    if word.length >= 5
-      accu << word.reverse!
-    else
-      accu << word
-    end
-  end
-   puts accu.join(" ")
+  words.split.map do  |word| 
+    word.length >= 5 ? word.reverse! : word
+  end.join(" ")
 end
 
- reverse_words_two("Professional")          # => lanoisseforP
- reverse_words_two("Walk around the block") # => Walk dnuora the kcolb
- reverse_words_two("Launch School")         # => hcnuaL loohcS
+ p reverse_words_two("Professional")          # => lanoisseforP
+ p reverse_words_two("Walk around the block") # => Walk dnuora the kcolb
+ p reverse_words_two("Launch School")         # => hcnuaL loohcS
 
-
-# each word comes in as a string.
-# we split the word and return an array of words. Included spaces dictate a new word.
-# ["word"] 1- word ["hello", "world"] 2- words etc
+# chain split and map to the calling object to return an array of words then iterate through each word. 
 # if a  word contains more than five characters - reverse the word.
-# if a  word has less than 5 chars leave word as is and test the next.
+# if a  word has less than 5 chars leave word as is
+# join the return value of the method
