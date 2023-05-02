@@ -16,3 +16,8 @@ end
 
 p reverse_sentence('how are you doing')
 # output: 'doing you are how'
+
+loop
+
+put puts
+
