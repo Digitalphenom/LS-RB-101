@@ -3,9 +3,7 @@
 
 def stringy(digit)
   array = (1..digit).to_a
-  result = 
-  array.map { |num| num.odd? ? "1" : "0" }
-  result.join
+  array.map { |num| num.odd? ? "1" : "0" }.join
 end
 
 # 12/18/2022
