@@ -1,4 +1,16 @@
 flintstones = %w(Fred Barney Wilma Betty BamBam Pebbles)
+# 7/3/23
+# GOAL
+  # given the following array, return the original array with each name consisting of only the first 3 characters
+
+# STRATEGY
+# access each name, access the first 3 characters, reassign current name to 3 characters accessed, return array.
+
+flintstones.each.with_index {|name, i| flintstones[i] = name[0..2]}
+
+p flintstones
+
+#-------------------------------------------
 
 count = 0
 size = flintstones.length

@@ -1,19 +1,27 @@
+# GOAL 
+# take a string and return a hash where each character that occurs once in the string is a key and the total count of each letter is the value.
+# input - string
+# output - hash
+
+# STRATEGY
+#   convert string into array of individual characters, insert each character as a hash key one time, count total occurences of each character insert count into corresponding key/value. return hash
+
+
+# OBJECTIVES
+# convert string into array of individual characters => #chars
+
+# access each character if it occurs once insert into hash key if it occurs more than once next
+#   - insert current char into hash as key
+# access each character and count total occurences
+#   - compare key with string return count
+# insert count into corresponding key/value hash.
+# return hash
+
 statement = "The Flintstones Rock"
 
-joined_string = statement.split(" ").join
-arr = joined_string.split("")
+arr = statement.split.join.chars
+hsh = {}
 
-hsh = Hash.new
-arr.each do |letter| 
-  hsh[letter] = arr.count(letter)
-end
+arr.each { |letter| hsh[letter] = arr.count(letter) }
+
 p hsh
-
-# count the number of occurences of each letter
-
-# create an array with individual letters joined together without spaces.
-# iterate through each letter and determine how many times each letter occurs within the array.
-# punch each letter @ number to a hash in key/value
-# => { "F"=>1, "R"=>1, "T"=>1, "c"=>1, "e"=>2, ... }
-
-# you can start by iterating through the array and use count(letter) to punch in the occurances as values.

@@ -1,3 +1,14 @@
+# GOAL 
+# add up all of the values in the ages hash
+
+# STRATEGY
+# access each value and add each value then output the total value
+
+#OBJECTIVES
+# initialize a tally variable to 0
+# access each value & add to tally
+# output tally variable to screen
+
 ages = { "Herman" => 32, "Lily" => 30, "Grandpa" => 5843, "Eddie" => 10, "Marilyn" => 22, "Spot" => 237 }
 
 

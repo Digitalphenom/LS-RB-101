@@ -1,5 +1,10 @@
 flintstones = %w(Fred Barney Wilma Betty BamBam Pebbles)
 
+# alternate
+
+flintstones.each.with_index {|name, i| puts i if name.include?("Be")}
+
+# --------------------------------------------
 flintstones.each_with_index do |word, index|
   if word.match?(/^[B][e]/)
   puts "The index of the first 'Be' name match is #{index}"

@@ -1,17 +1,23 @@
+# GOAL
+# given the following hash, pick out the minimum age from the hash
+
+# STRATEGY
+#   initialize a tally variable, access each value, determine if the current value is less than or greater than tally, if less than reassign, if greater than go next, return tally
+
+# OBJECTIVES
+#   initialize a tally variable to 0
+#   access each value
+#   reassign tally to the first value
+#   determine if current value is less than or greater than tally
+#     - compare tally with current value if tally is greater than value reassign. If tally is less than value go next.
+#   return value
+
 ages = { "Herman" => 32, "Lily" => 30, "Grandpa" => 5843, "Eddie" => 10, "Marilyn" => 22, "Spot" => 237 }
 
-# pick out the minimum age from the hash.
-# im assuming minimum age means pick the lowest age from the hash. which would be "eddie" => 10.
+tally = 0
 
-low_to_high = ages.values.sort
-
-ages.reject! do |key, value|
-  value > low_to_high[0]    
+ages.each do |k, v|
+  tally = v if tally.zero?
+  tally = v if tally > v
 end
-p ages
-
-# I couldnt find a method that automatically sizes up values and returns the lowest.
-# What I did was grabed the values from the hash and ordered them from low to high.
-# Then simply used the destructive version of reject! to remove all values that are higher than the lowest index from low_to_high which will always return the lowest number.
-
-# min is a method that returns the lowest number ***from an array**
+p tally

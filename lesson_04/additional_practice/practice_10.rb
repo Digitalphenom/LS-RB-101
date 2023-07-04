@@ -1,3 +1,9 @@
+# goal
+# insert an age group key into each pair with the value representing 3 age groups => kid, adult, senior.
+
+# strategy
+#  - access ages values and determine if they are less than 17, greater than 18 but less than 64, or over 64. Insert a corresponding key and value pair where age_group represents all keys and the following values are assigned to each key: "kid" for the first condition, "adult" the second and "senior" for everything else.
+
 munsters = {
   "Herman" => { "age" => 32, "gender" => "male" },
   "Lily" => { "age" => 30, "gender" => "female" },
@@ -6,28 +12,20 @@ munsters = {
   "Marilyn" => { "age" => 23, "gender" => "female"}
 }
 
-#{ "Herman" => { "age" => 32, "gender" => "male", "age_group" => "adult" },
-#  "Lily" => {"age" => 30, "gender" => "female", "age_group" => "adult" },
-#  "Grandpa" => { "age" => 402, "gender" => "male", "age_group" => "senior" },
-#  "Eddie" => { "age" => 10, "gender" => "male", "age_group" => "kid" },
-#  "Marilyn" => { "age" => 23, "gender" => "female", "age_group" => "adult" } }
+munsters.each do |key, value|
 
-munsters.map do |key, val|
-  if val["age"] > 64
-    munsters[key]["age_group"] = "senior"
-  elsif val["age"] >= 18 && val["age"] <= 64 
+  if value["age"] < 17
+    munsters[key]["age_group"] = "kid"
+  elsif value["age"] >= 18 && value["age"] <= 64
     munsters[key]["age_group"] = "adult"
   else
-    munsters[key]["age_group"] = "kid"
+    munsters[key]["age_group"] = "senior"
   end
 end
+
 p munsters
 
-# this one really required me to dig in and understand how to assign values to hashes. as straight forward as it seems, it can get tricky when nested values are involved. Especially with hashes and theyre key/value nature.
-
-# as always heres ls more succinct approach.
-# a case statement with ranges would have cut down on some code.
-
+# ------------(LS)----------------
 # munsters.each do |name, details|
 #  case details["age"]
 #  when 0...18
