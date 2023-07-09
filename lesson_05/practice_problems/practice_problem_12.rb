@@ -1,15 +1,19 @@
 arr = [[:a, 1], ['b', 'two'], ['sea', {c: 3}], [{a: 1, b: 2, c: 3, d: 4}, 'D']]
-# expected return value: {:a=>1, "b"=>"two", "sea"=>{:c=>3}, {:a=>1, :b=>2, :c=>3, :d=>4}=>"D"}
-#p arr.flatten
+
+# here we directly access each inner value and insert into hash as key/value pairs
+
 hsh = {}
-arr.each do |k, v|
-    hsh[k] = v
-  end
-hsh
+arr.each do |key, value|
+  hsh[key] = value
+end
+p hsh
 
-# we need to return a hash with each key/ value paired assigned
+#--------------------------------
 
-# One way to go about this is to create an empty hash.
-# iterate through each keys, and append them to the hash.
-# access each key and assign it the corresponding values.
-# what trips me up is the randomeness of the hash. i see some nested hashes for keys and also a lone value. how do I handle these?
+# here we iterate through the arr, access each sub_arrs first and second elements and insert them as key/value pairs to the result hash
+
+result = {}
+arr.each do |sub_arr|
+  result[sub_arr[0]] = sub_arr[1]
+end
+p result
