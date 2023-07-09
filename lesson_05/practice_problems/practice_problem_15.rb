@@ -1,40 +1,23 @@
+# Given this data structure write some code to return an array which contains only the hashes where all the integers are even.
+
 arr = [{a: [1, 2, 3]}, {b: [2, 4, 6], c: [3, 6], d: [4]}, {e: [8], f: [6, 10]}]
-# return an array of hashes containing even integers only.
-# we have an array of hashes with Symbols as keys and Integers as values.
-# what we need to do is select all the hash collections that contain all even pairs only.
-# => [{:e=>[8], :f=>[6, 10]}]
 
+# GOAL
+# return an array containing only the hashes that contain values that are even
 
-arr.select do |collection|
-  collection.all? do |_,value|
-    value.all? do |v|
-       v.even?
-    end
+# STRATEGY
+# access each inner hash, access each value, determine if all elements in a given hash are even, if so extract to new collection, else ignore.
+
+# access each value in array and check if any of them are odd or any look for all odd ints
+
+result = 
+arr.select do |inner_hsh|
+  inner_hsh.all? do |key, array|
+    array.all? {|int| int.even?}
   end
 end
-p arr
 
+# If all of the integers in an inner array are even then the inner block returns true to the innermost call to all?. If all of the inner blocks for a particular hash return true then the middle block returns true to the outer call to all? which in turn causes the outer block to return true to the select method for that iteration.
 
-# this one is proving to be difficult.
-# I need to first iterate through the array in order to access the innder hash collections.
-# then iterate again so I have access to the key/value pairs.
-# then i need to access the values and iterate through them to check for odd integers.
-# if it finds one, then I need to exclude that collection from the final output.
+p result
 
-# at the moment I dont know how to do the final step. Im able to succesfully access each collection layer but when it comes to finding odd integers its simply dismising those individual characters but not the whole collection.
-# =>
-# i need it to dismiss the whole collection
-
-#------------solved
-
-# I semi solved this on my own. This is what I came up with
-
-# arr.map do |collection|
-#  collection.delete_if do |_, value|
-#    value.any? do |v|
-#      v.odd?
-#    end
-#  end
-#end
-
-# The problem was that I did not fully understand the problem. I solved the problem I thought it was asking but my interpretation was wrong.
