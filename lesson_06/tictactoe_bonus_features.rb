@@ -1,5 +1,5 @@
-require "pry"
-require "pry-byebug"
+#require "pry"
+#require "pry-byebug"
 
 WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # colums
@@ -10,31 +10,33 @@ PLAYER_MARKER = "X"
 COMPUTER_MARKER = "O"
 ORDER_OPTION = [1, 2]
 
-cpu_count = []
-user_count = []
-game_count = [1]
+cpu_count = 0
+user_count = 0
+game_count = 1
 
 def prompt(str)
   puts "=> #{str}"
 end
 
 def add_round(game)
-  game << 1
+  game + 1
 end
 
 def add_count(brd, user, cpu)
   if detect_winner(brd) == "Player"
-    user << 1
-   elsif detect_winner(brd) == "Computer"
-    cpu << 1
+    return [user + 1, cpu]
+  elsif detect_winner(brd) == "Computer"
+    return [user, cpu + 1]
+  else
+    return [user, cpu]
   end
-
 end
 
 # rubocop: disable Metrics/AbcSize
 def display_score(user, cpu)
-  prompt "User Score: #{user.sum} Computer Score: #{cpu.sum}"
+  prompt "User Score: #{user} Computer Score: #{cpu}"
 end
+
 def display_board(brd)
   system "clear"
   prompt "You're #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}"
@@ -74,10 +76,9 @@ def insert_delimeter(brd)
 end
 
 def find_at_risk_square(line, brd, marker)
+# line => sub-array WINNING_LINES
   if brd.values_at(*line).count(marker) == 2
-  # select values from line (line are the subArrays of WINNINGLINES) count all "X" equal to 2
     brd.select{ |k, v| line.include?(k) && v == INITIAL_MARKER }.keys.first
-  # from brd, select lines that include keys and v equal to an empty slot. return the key
   else
     nil
   end
@@ -153,7 +154,7 @@ def display_on_screen(brd, user, cpu, game, current_player)
   loop do
     display_board(brd)
     display_score(user, cpu)
-    prompt "Round #{game.sum}"
+    prompt "Round #{game}"
     place_piece!(brd, current_player)
     current_player = alternate_player(current_player)
     return if someone_won?(brd) || board_full?(brd)
@@ -163,27 +164,29 @@ end
 def who_goes_first?
   loop do
     prompt "Who goes first?"
-    prompt "> (1) User | > (2) Computer"
+    prompt " (1) User | (2) Computer"
     first = gets.chomp.to_i
     return first if ORDER_OPTION.include?(first)
     prompt "Sorry, that's not a valid choice"
   end
 end
 
-def display_winner(brd)
-  if someone_won?(brd)
-    prompt "#{detect_winner(brd)} Won!"
-  else
-    prompt "It's a tie!"
-  end
+def display_round_winner(brd)
+  prompt someone_won?(brd) ? "#{detect_winner(brd)} Won!" : "It's a tie!"
+end
+
+def display_winner(user, cpu)
+  prompt user > 2 ? "User Wins The GAME!" : "Computer Wins The GAME!"
+  play_again?()
+end
+
+def play_again?()
+  prompt "Play again? (y or no)"
+  answer = gets.chomp
 end
 
 def place_piece!(brd, current_player)
-  if current_player == "Player"
-    player_places_piece!(brd)
-  else
-    computer_places_piece!(brd)
-  end
+  current_player == "Player" ? player_places_piece!(brd) : computer_places_piece!(brd)
 end
 
 def alternate_player(current_plyr)
@@ -193,29 +196,32 @@ end
 
 loop do
   prompt "Welcome to Tic Tac Toe!"
-  prompt "First To Win 5 Rounds Wins The Game!"
+  prompt "First To 4, Wins The Game!"
   loop do
     board = initialize_board
     first = who_goes_first?()
     current_player = first == 1 ? "Player" : "Computer"
 
     display_on_screen(board, user_count, cpu_count, game_count, current_player)
-    display_winner(board)
+    display_round_winner(board)
 
-    add_count(board, user_count, cpu_count)
-    add_round(game_count)
-    if user_count.sum >= 2 || cpu_count.sum >= 2
-      prompt "Play again? (y or no)"
-      answer = gets.chomp
-       if answer.downcase.start_with?("n")
-        break
-       elsif answer.downcase.start_with?("y")
-        user_count = []
-        cpu_count = []
-        game_count = [1]
-        next
-       end
-      end
+    user_count, cpu_count = add_count(board, user_count, cpu_count)
+    game_count = add_round(game_count)
+
+    if user_count >= 4 || cpu_count >= 4
+      answer = display_winner(user_count, cpu_count) 
+    else
+      next
+    end
+
+    if answer.include?("y")
+      cpu_count = 0
+      user_count = 0
+      game_count = 1
+      next
+    elsif answer.include?("n")
+      break
+    end
   end
   break
 end
