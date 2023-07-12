@@ -8,7 +8,7 @@ WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
 INITIAL_MARKER = " "
 PLAYER_MARKER = "X"
 COMPUTER_MARKER = "O"
-ORDER_OPTION = [1, 2, 3]
+ORDER_OPTION = [1, 2, 3, 4]
 
 cpu_count = 0
 user_count = 0
@@ -165,7 +165,7 @@ end
 def who_goes_first?
   loop do
     prompt "Who goes first?"
-    prompt " (1) User | (2) Computer | (3) Let Computer Choose"
+    prompt " (1) User | (2) Computer | (3) Let Computer Choose | (4) Quit"
     choice = gets.chomp.to_i
     return choice if ORDER_OPTION.include?(choice)
     prompt "Sorry, that's not a valid choice"
@@ -210,6 +210,7 @@ loop do
   loop do
     board = initialize_board
     choice = who_goes_first?()
+    break if choice == 4
     current_player = player_or_computer(choice)
     display_on_screen(board, user_count, cpu_count, game_count, current_player)
     display_round_winner(board)
