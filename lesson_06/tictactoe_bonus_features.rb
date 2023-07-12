@@ -8,7 +8,7 @@ WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
 INITIAL_MARKER = " "
 PLAYER_MARKER = "X"
 COMPUTER_MARKER = "O"
-ORDER_OPTION = [1, 2]
+ORDER_OPTION = [1, 2, 3]
 
 cpu_count = 0
 user_count = 0
@@ -23,12 +23,13 @@ def add_round(game)
 end
 
 def add_count(brd, user, cpu)
-  if detect_winner(brd) == "Player"
-    return [user + 1, cpu]
-  elsif detect_winner(brd) == "Computer"
-    return [user, cpu + 1]
+  case detect_winner(brd)
+  when "Player"
+    [user + 1, cpu]
+  when "Computer"
+    [user, cpu + 1]
   else
-    return [user, cpu]
+    [user, cpu]
   end
 end
 
@@ -76,7 +77,7 @@ def insert_delimeter(brd)
 end
 
 def find_at_risk_square(line, brd, marker)
-# line => sub-array WINNING_LINES
+# line => sub-array in WINNING_LINES
   if brd.values_at(*line).count(marker) == 2
     brd.select{ |k, v| line.include?(k) && v == INITIAL_MARKER }.keys.first
   else
@@ -164,9 +165,9 @@ end
 def who_goes_first?
   loop do
     prompt "Who goes first?"
-    prompt " (1) User | (2) Computer"
-    first = gets.chomp.to_i
-    return first if ORDER_OPTION.include?(first)
+    prompt " (1) User | (2) Computer | (3) Let Computer Choose"
+    choice = gets.chomp.to_i
+    return choice if ORDER_OPTION.include?(choice)
     prompt "Sorry, that's not a valid choice"
   end
 end
@@ -177,7 +178,6 @@ end
 
 def display_winner(user, cpu)
   prompt user > 2 ? "User Wins The GAME!" : "Computer Wins The GAME!"
-  play_again?()
 end
 
 def play_again?()
@@ -189,35 +189,43 @@ def place_piece!(brd, current_player)
   current_player == "Player" ? player_places_piece!(brd) : computer_places_piece!(brd)
 end
 
-def alternate_player(current_plyr)
-  return "Computer" if current_plyr == "Player"
-  "Player"
+def alternate_player(current_player)
+  current_player == "Player" ? "Computer" : "Player"
+end
+
+def player_or_computer(choice)
+  case choice
+  when 1
+    "Player"
+  when 2
+    "Computer"
+  when 3
+    ["Player", "Computer"].sample
+  end
 end
 
 loop do
   prompt "Welcome to Tic Tac Toe!"
-  prompt "First To 4, Wins The Game!"
+  prompt "First To 5, Wins The Game!"
   loop do
     board = initialize_board
-    first = who_goes_first?()
-    current_player = first == 1 ? "Player" : "Computer"
-
+    choice = who_goes_first?()
+    current_player = player_or_computer(choice)
     display_on_screen(board, user_count, cpu_count, game_count, current_player)
     display_round_winner(board)
 
     user_count, cpu_count = add_count(board, user_count, cpu_count)
     game_count = add_round(game_count)
 
-    if user_count >= 4 || cpu_count >= 4
-      answer = display_winner(user_count, cpu_count) 
+    if user_count >= 5 || cpu_count >= 5
+      display_winner(user_count, cpu_count) 
     else
       next
     end
 
+    answer = play_again?()
     if answer.include?("y")
-      cpu_count = 0
-      user_count = 0
-      game_count = 1
+      cpu_count, user_count, game_count = 0, 0, 1
       next
     elsif answer.include?("n")
       break
@@ -226,4 +234,4 @@ loop do
   break
 end
 
-  prompt "Thanks For Playing TicTacToe Goodbye!"
+prompt "Thanks For Playing TicTacToe Goodbye!"
