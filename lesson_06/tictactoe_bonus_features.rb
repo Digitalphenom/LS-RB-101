@@ -69,15 +69,11 @@ end
 
 def insert_delimeter(brd)
   squares_array = empty_squares(brd)
-  if squares_array.size > 1
-    squares_array.join(", ").insert(-2, "or ")
-  else
-    squares_array.join("")
-  end
+  size = squares_array.size
+  size > 1 ? size.join(", ").insert(-2, "or "): size.join("")
 end
 
 def find_at_risk_square(line, brd, marker)
-# line => sub-array in WINNING_LINES
   if brd.values_at(*line).count(marker) == 2
     brd.select{ |k, v| line.include?(k) && v == INITIAL_MARKER }.keys.first
   else
