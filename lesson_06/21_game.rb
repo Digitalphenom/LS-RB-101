@@ -1,7 +1,7 @@
-require "yaml"
+#require "yaml"
 require "pry"
 
-MESSAGES = YAML.load_file('messages.yml')
+#MESSAGES = YAML.load_file('messages.yml')
 
 SUITS = {
   'D' => '♦',
@@ -15,59 +15,49 @@ end
 
 FACES.flatten!.shuffle!
 
-player_total = []
-dealer_total = []
+suit_hsh = {}
+face_hsh = {}
 
-player_suit = {}
-player_face = {}
-
-dealer_suit = {}
-dealer_face = {}
 
 def prompt(str)
   puts "=> #{str}"
 end
 
-def generate_player_values(player_suit, player_face, player_stash)
-    (1..2).each { |num| player_suit[num] = SUITS.values.sample }
-    (1..2).each { |num| player_face[num] = FACES.sample }
-    player_stash << player_face.values_at(1, 2)
-    player_total = player_stash.map do |deck|
-      deck.map do |value|
-        deck = value.to_i 
-        if deck.zero?
-          deck = 10
-        else
-          deck
-        end
-      end
+def generate_cards(suit_hsh, face_hsh)
+  (1..4).each { |num| suit_hsh[num] = SUITS.values.sample }
+  (1..4).each { |num| face_hsh[num] = FACES.sample }
+  faces = face_hsh.values
+  suits = suit_hsh.values
+  [faces, suits]
+end
+
+def convert_face_to_digit(deck)
+  arr = 
+  deck.map do |value|
+    if %w(J Q K).include?(value)
+      10
+    elsif value != "A"
+      value.to_i
     end
-    player_total
   end
+  arr
+end
 
-  def generate_dealer_values(dealer_suit, dealer_face, dealer_stash)
-    (1..2).each { |num| dealer_suit[num] = SUITS.values.sample }
-    (1..2).each { |num| dealer_face[num] = FACES.sample }
-    dealer_stash << dealer_face.values_at(1, 2)
-
-    dealer_total = dealer_stash.map do |deck|
-      deck.map do |value|
-        deck = value.to_i 
-        if deck.zero?
-          deck = 10
-        else
-          deck
-        end
-      end
-    end
-    dealer_total
+def split_deck(face_deck)
+  arr = []
+  index = 0
+  until arr.size == 2 
+    arr << face_deck[index..index + 1]
+    index += 2
   end
+  arr
+end
 
-  def display_deck(ps, pf, ds, df)
+  def display_deck(ps, pf, ds, df, pt, ct)
     system "clear"
     prompt "You're Bottom. Dealer is Top"
     puts "   __________    __________              "
-    puts "  |       #{df[1]}  |  |        #{" "} |             "
+    puts "  |       #{df[1]}  |  |        #{" "} |         #{ct.flatten}    "
     puts "  |          |  |          |             "
     puts "  |          |  |          |             "
     puts "  |     #{ds[1]}    |  |     #{"?"}    |             "
@@ -82,11 +72,9 @@ def generate_player_values(player_suit, player_face, player_stash)
     puts "  |     #{ps[1]}    |  |     #{ps[2]}    |             "
     puts "  |          |  |          |             "
     puts "  |          |  |          |             "
-    puts "  |__________|  |__________|             "
+    puts "  |__________|  |__________|         #{pt.flatten}    "
   puts "                                           "
 end
-
-
 
 def player_turn
   prompt "Player Turn"
@@ -116,9 +104,18 @@ prompt "Welcome to the game 21!"
 prompt "Ready? Press (y) to Start"
 start = gets.chomp
 
-player_total = generate_player_values(player_suit, player_face, player_total)
-dealer_total = generate_dealer_values(dealer_suit, dealer_face, dealer_total)
-display_deck(player_suit, player_face, dealer_suit, dealer_face)
+face_deck, suit_deck = generate_cards(suit_hsh, face_hsh)
+#binding.pry
+face_deck = convert_face_to_digit(face_deck)
+player_deck, cpu_deck =  split_deck(face_deck)
+#binding.pry
+
+
+
+#---------------------------------------------------------------
+
+
+display_deck(player_suit, player_face, dealer_suit, dealer_face, player_total, dealer_total)
 display_score(dealer_total, player_total)
 
 loop do
@@ -126,21 +123,23 @@ loop do
   hit_or_stay = player_turn()
 
   if hit_or_stay.include?("1")
-    player_total = generate_player_values(player_suit, player_face, player_total)
-    display_deck(player_suit, player_face, dealer_suit, dealer_face)
+    player_total = generate_values(player_suit, player_face, player_total)
+    display_deck(player_suit, player_face, dealer_suit, dealer_face, player_total, dealer_total)
     display_score(dealer_total, player_total)
-    next
-      if player_total == 21
+    
+      if player_total.flatten.sum >= 21
         winner()
-      elsif player_total > 21
+        break
+      elsif player_total.flatten.sum >= 21
         busted()
+        break
       end
   end
   loop do
     # Dealer Turn
     dealer_turn()
-    dealer_total = generate_dealer_values(dealer_suit, dealer_face, dealer_total)
-    display_deck(player_suit, player_face, dealer_suit, dealer_face)
+    dealer_total = generate_values(dealer_suit, dealer_face, dealer_total)
+    display_deck(player_suit, player_face, dealer_suit, dealer_face, player_total, dealer_total)
     display_score(dealer_total, player_total)
     if dealer_total.flatten.sum <= 17
       next
@@ -150,3 +149,5 @@ loop do
     break
   end
 end
+
+
