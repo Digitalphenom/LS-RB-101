@@ -21,6 +21,7 @@ def draw_card(face, suit, count)
 end
 
 def split_deck(arr)
+
   count = 0
   deck = []
   loop do
@@ -29,6 +30,7 @@ def split_deck(arr)
     break if count == arr.size
   end
   deck
+
 end
 
 def convert_face_to_digit(deck)
@@ -49,24 +51,24 @@ def display_deck(dealer, player)
   system "clear"
   prompt "You're Bottom. Dealer is Top"
 
-  puts "   __________    __________              "
-  puts "  |       #{dealer[0][1]}  |  |          |             "
-  puts "  |          |  |          |             "
-  puts "  |          |  |          |             "
-  puts "  |     #{dealer[0][0]}    |  |     #{"?"}    |             "
-  puts "  |          |  |          |   __________           "
-  puts "  |          |  |          |  |       #{"?"}  | "
-  puts "  |__________|  |__________|  |          | "
-  puts "                              |          | "
-  puts "   __________    __________   | #{"New Card"} | "
-  puts "  |        #{player[0][1]} |  |       #{player[1][1]}  |  |          | "
-  puts "  |          |  |          |  |          | "
-  puts "  |          |  |          |  |__________|           "
-  puts "  |     #{player[0][0]}    |  |     #{player[1][0]}    |             "
-  puts "  |          |  |          |             "
-  puts "  |          |  |          |             "
-  puts "  |__________|  |__________|             "
-  puts "                                           "
+  # puts "   __________    __________              "
+  # puts "  |       #{dealer[0][1]}  |  |          |             "
+  # puts "  |          |  |          |             "
+  # puts "  |          |  |          |             "
+  # puts "  |     #{dealer[0][0]}    |  |     #{"?"}    |             "
+  # puts "  |          |  |          |   __________           "
+  # puts "  |          |  |          |  |       #{"?"}  | "
+  # puts "  |__________|  |__________|  |          | "
+  # puts "                              |          | "
+  # puts "   __________    __________   | #{"New Card"} | "
+  # puts "  |        #{player[0][1]} |  |       #{player[1][1]}  |  |          | "
+  # puts "  |          |  |          |  |          | "
+  # puts "  |          |  |          |  |__________|           "
+  # puts "  |     #{player[0][0]}    |  |     #{player[1][0]}    |             "
+  # puts "  |          |  |          |             "
+  # puts "  |          |  |          |             "
+  # puts "  |__________|  |__________|             "
+  # puts "                                           "
 end
 
 def player_turn(user)
@@ -83,12 +85,14 @@ def add_to_total(total, card)
   total << card.flatten.sum
 end
 
-def display_score(dealer_total, player_total)
-  prompt " Dealer #{dealer_total} Player #{player_total}"
+def hide_card(dealer_total)
+  hidden_cards = []
+  hidden_cards << dealer_total.sample << "?"
+  hidden_cards
 end
 
-def busted?(player_total, dealer_total)
-  player_total.sum > 21
+def display_score(dealer_total, player_total)
+  prompt " Dealer #{dealer_total} Player #{player_total}"
 end
 
 def calculate_bust(dealer_total, player_total)
@@ -104,88 +108,67 @@ def calculate_bust(dealer_total, player_total)
   end
 end
 
-
 def calculate_winner(dealer_total, player_total)
   dealer = dealer_total.sum
   player = player_total.sum
 
   if player <= 21 && player > dealer 
-    puts "Player Wins"
+    puts "Player Wins!!"
   elsif dealer <= 21 && dealer > player
-    puts "The Dealer Wins!"
+    puts "The Dealer Wins!!"
   else
     puts "Its a Tie!"
   end
 end
-# Start Game
-prompt "Welcome to the game 21!"
-prompt "Ready? Press (y) to Start"
-#start = gets.chomp
-  #---------------------------------------------------------------
-  # initialize cards 
+
 arr_suit = SUITS.keys
 arr_face = SUITS.values
 hit_or_stay = ""
 draw_count = 4
 
-arr = draw_card(arr_face, arr_suit, 4)
-dealer_cards, player_cards = split_deck(arr)
-dealer_total, player_total = convert_face_to_digit([dealer_cards,player_cards])
+dealer_total = []
+player_total = []
 
-display_deck(dealer_cards, player_cards)
-display_score(dealer_total, player_total)
-#---------------------------------------------------------------
-# begin game
+dealer_cards = []
+player_cards = []
+
+
+prompt "Welcome to the game 21!"
+prompt "Ready? Press (y) to Start"
+start = gets.chomp
+
 loop do
-  break if hit_or_stay.include?("2") || busted?(player_total, dealer_total)
-  hit_or_stay = player_turn("player")
-  drawed_card = draw_card(arr_face, arr_suit, 1)
-  card_value = convert_face_to_digit([drawed_card])
-  add_to_total(player_total, card_value)
+  drawed_card = draw_card(arr_face, arr_suit, draw_count)
+  dealer_cards, player_cards = split_deck(drawed_card) if draw_count == 4
+
+  if draw_count == 4 
+    dealer_total, player_total = convert_face_to_digit([dealer_cards,player_cards])
+  else 
+    card_value = convert_face_to_digit([drawed_card])
+    add_to_total(player_total, card_value)
+  end
+
+  hidden_total = hide_card(dealer_total)
   display_deck(dealer_cards, player_cards)
-  display_score(dealer_total, player_total)
+  display_score(hidden_total, player_total)
+
+  calculate_bust(dealer_total, player_total)
+  hit_or_stay = player_turn("player")
+  draw_count = 1
+  break if hit_or_stay.include?("2")
 end
-calculate_bust(dealer_total, player_total)
-#---------------------------------------------------------------
+
 loop do
-  break if dealer_turn(dealer_total) || busted?(player_total, dealer_total)
+  break if dealer_total.sum >= 17
+  hidden_total = hide_card(dealer_total)
+
   drawed_card = draw_card(arr_face, arr_suit, 1)
   card_value = convert_face_to_digit([drawed_card])
   add_to_total(dealer_total, card_value)
+
   display_deck(dealer_cards, player_cards)
   display_score(dealer_total, player_total)
+  calculate_bust(dealer_total, player_total)
 end
-calculate_bust(dealer_total, player_total)
 calculate_winner(dealer_total, player_total)
-
-  #-------------------------------------------------------------
-
-
-
-
-  # ------------------------------------------------------------
-
-    #if player_total.flatten.sum >= 21
-    #  winner()
-    #  break
-    #elsif player_total.flatten.sum >= 21
-    #  busted()
-    #  break
-    #end
-
-# loop do
-#     # Dealer Turn
-#     dealer_turn()
-#     dealer_total = generate_values(dealer_suit, dealer_face, dealer_total)
-#     display_deck(player_suit, player_face, dealer_suit, dealer_face, # player_total, dealer_total)
-#     display_score(dealer_total, player_total)
-#     if dealer_total.flatten.sum <= 17
-#       next
-#     elsif dealer_total.flatten.sum > 17
-#       break
-#     end
-#     break
-#   end
-# end
-
 
