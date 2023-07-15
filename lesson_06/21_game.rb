@@ -4,18 +4,13 @@ require "pry"
 #MESSAGES = YAML.load_file('messages.yml')
 
 SUITS = {
-  '♦' => ['2', '3', '4', 'A'],
-  '♠' => ['2', '3', '4', 'A'],
-  '♥' => ['2', '3', '4', 'A'],
-  '♣' => ['2', '3', '4', 'A']
+  '♦' => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'],
+  '♠' => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'],
+  '♥' => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'],
+  '♣' => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 }
 
 
-# '♦' => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'],
-# '♠' => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'],
-# '♥' => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'],
-# '♣' => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
-# 
 def prompt(str)
   puts "=> #{str}"
 end
@@ -87,8 +82,7 @@ def dealer_turn(total)
 end
 
 def add_to_total(total, card)
-  binding.pry
-  total << card.flatten.sum
+  total << card.flatten.sum unless card.flatten.include?(nil)
 end
 
 def hide_card(dealer_total)
@@ -105,29 +99,31 @@ def display_score(dealer_total, player_total)
   prompt " Dealer #{dealer_total} Player #{player_total}"
 end
 
-def convert_ace(player_total, dealer_total)
-  if player_total.include?(nil)
+def calculate_two_cards_ace(card_total)
+  ace_value = [11, 1]
+  nil_count = card_total.select { |value| value.nil? }
+  index = card_total.index(nil)
 
-    ace_value = calculate_ace(player_total)
-    index = player_total.index(nil)
-    return player_total[index] = ace_value
-  elsif dealer_total.include?(nil)
-    ace_value = calculate_ace(dealer_total)
-    index = dealer_total.index(nil)
-    return dealer_total[index] = ace_value
+  if nil_count.count > 1
+    2.times { |i| card_total[i] = ace_value[i] }
+  else
+    total = card_total.compact.sum
+    if total > 10
+      card_total[index] = 1
+    elsif total <= 10 
+      card_total[index] = 11
+    end
   end
 end
 
-def calculate_ace(card_total)
-  ace_value = 0
-  total = card_total.compact.sum
+def calculate_single_card_ace(drawed_card, card_total)
+  total = card_total.sum
 
   if total > 10
-    ace_value = 1
+    card_total << 1
   elsif total <= 10 
-    ace_value = 11
+    card_total << 11
   end
-  ace_value
 end
 
 def calculate_bust(dealer_total, player_total)
@@ -178,14 +174,13 @@ loop do
 
   if draw_count == 4 
     dealer_total, player_total = convert_face_to_digit([dealer_cards,player_cards])
+    calculate_two_cards_ace(player_total) if player_total.include?(nil)
+    calculate_two_cards_ace(dealer_total) if dealer_total.include?(nil)
   else 
-    card_value = convert_face_to_digit([drawed_card])
-    convert_ace(card_value, dealer_total)
-    binding.pry
-    add_to_total(player_total, card_value)
+    card_total = convert_face_to_digit([drawed_card])
+    calculate_single_card_ace(card_total, player_total) if card_total.flatten.include?(nil)
+    add_to_total(player_total, card_total)
   end
-  convert_ace(player_total, dealer_total)
-
 
   hidden_total = hide_card(dealer_total)
   display_deck(dealer_cards, player_cards)
@@ -201,8 +196,8 @@ loop do
   break if dealer_total.sum >= 17
 
   drawed_card = draw_card(arr_face, arr_suit, 1)
-  card_value = convert_face_to_digit([drawed_card])
-  add_to_total(dealer_total, card_value)
+  card_total = convert_face_to_digit([drawed_card])
+  add_to_total(dealer_total, card_total)
   hidden_total = hide_card(dealer_total)
   convert_ace(player_total, dealer_total)
 
