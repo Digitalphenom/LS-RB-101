@@ -150,6 +150,12 @@ def calculate_winner(dealer_total, player_total)
   end
 end
 
+def play_again?()
+  prompt "Would you like to play again? (y or n)"
+  answer = gets.chomp
+  answer.downcase.start_with?('y')
+end
+
 arr_suit = SUITS.keys
 arr_face = SUITS.values
 hit_or_stay = ""
@@ -165,7 +171,7 @@ player_cards = []
 prompt "Welcome to the game 21!"
 prompt "Ready? Press (y) to Start"
 start = gets.chomp
-
+loop do
 loop do
   drawed_card = draw_card(arr_face, arr_suit, draw_count)
   dealer_cards, player_cards = split_deck(drawed_card) if draw_count == 4
@@ -216,6 +222,16 @@ loop do
   calculate_bust(dealer_total, player_total)
 end
 calculate_winner(dealer_total, player_total)
-
 puts
 prompt "Dealers Cards #{dealer_total} #{dealer_total.sum}"
+
+break unless play_again?()
+draw_count = 4
+dealer_total = []
+player_total = []
+
+dealer_cards = []
+player_cards = []
+end
+
+prompt "Thanks for playing Twenty-One! Good-bye!"
