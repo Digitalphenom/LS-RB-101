@@ -70,6 +70,7 @@ def display_deck(dealer, player)
 end
 
 def player_turn(user)
+  puts
   prompt "#{user} Turn"
   prompt "ENTER 1) HIT   |   2) STAY"
   hit_or_stay = gets.chomp
@@ -163,7 +164,7 @@ player_cards = []
 
 prompt "Welcome to the game 21!"
 prompt "Ready? Press (y) to Start"
-#start = gets.chomp
+start = gets.chomp
 
 loop do
   drawed_card = draw_card(arr_face, arr_suit, draw_count)
@@ -173,7 +174,7 @@ loop do
     dealer_total, player_total = convert_face_to_digit([dealer_cards,player_cards])
     calculate_two_card_ace(player_total) if player_total.include?(nil)
     calculate_two_card_ace(dealer_total) if dealer_total.include?(nil)
-  else 
+  else
     card_total = convert_face_to_digit([drawed_card])
     calculate_single_card_ace(player_total, card_total) if card_total.flatten.include?(nil)
     add_to_total(player_total, card_total)
@@ -182,11 +183,23 @@ loop do
   hidden_total = hide_card(dealer_total)
   display_deck(dealer_cards, player_cards)
   display_score(hidden_total, player_total)
-
   calculate_bust(dealer_total, player_total)
-  hit_or_stay = player_turn("player")
+
   draw_count = 1
-  break if hit_or_stay.include?("2")
+  dealer_turn = false
+  loop do
+    hit_or_stay = player_turn("Player")
+    case hit_or_stay
+    when "1"
+      break
+    when "2"
+      dealer_turn = true
+      break
+    else
+      prompt "Sorry, must enter '1' or '2'."
+    end
+  end
+  break if dealer_turn == true
 end
 
 loop do
