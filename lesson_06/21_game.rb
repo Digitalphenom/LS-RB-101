@@ -10,7 +10,6 @@ SUITS = {
   '♣' => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 }
 
-
 def prompt(str)
   puts "=> #{str}"
 end
@@ -50,25 +49,24 @@ end
 def display_deck(dealer, player)
   system "clear"
   prompt "You're Bottom. Dealer is Top"
-
-  # puts "   __________    __________              "
-  # puts "  |       #{dealer[0][1]}  |  |          |             "
-  # puts "  |          |  |          |             "
-  # puts "  |          |  |          |             "
-  # puts "  |     #{dealer[0][0]}    |  |     #{"?"}    |             "
-  # puts "  |          |  |          |   __________           "
-  # puts "  |          |  |          |  |       #{"?"}  | "
-  # puts "  |__________|  |__________|  |          | "
-  # puts "                              |          | "
-  # puts "   __________    __________   | #{"New Card"} | "
-  # puts "  |        #{player[0][1]} |  |       #{player[1][1]}  |  |          | "
-  # puts "  |          |  |          |  |          | "
-  # puts "  |          |  |          |  |__________|           "
-  # puts "  |     #{player[0][0]}    |  |     #{player[1][0]}    |             "
-  # puts "  |          |  |          |             "
-  # puts "  |          |  |          |             "
-  # puts "  |__________|  |__________|             "
-  # puts "                                           "
+# puts "   __________    __________              "
+# puts "  |       #{dealer[0][1]}  |  |          |             "
+# puts "  |          |  |          |             "
+# puts "  |          |  |          |             "
+# puts "  |     #{dealer[0][0]}    |  |     #{"?"}    |             "
+# puts "  |          |  |          |   __________           "
+# puts "  |          |  |          |  |       #{"?"}  | "
+# puts "  |__________|  |__________|  |          | "
+# puts "                              |          | "
+# puts "   __________    __________   | #{"New Card"} | "
+# puts "  |        #{player[0][1]} |  |       #{player[1][1]}  |  |          | "
+#  puts "  |          |  |          |  |          | "
+#  puts "  |          |  |          |  |__________|           "
+#  puts "  |     #{player[0][0]}    |  |     #{player[1][0]}    |             "
+#  puts "  |          |  |          |             "
+#  puts "  |          |  |          |             "
+#  puts "  |__________|  |__________|             "
+#  puts "                                           "
 end
 
 def player_turn(user)
@@ -92,19 +90,18 @@ def hide_card(dealer_total)
   hidden_cards << dealer_total.sample
   hide_count.times { hidden_cards << "?" }
   hidden_cards
-
 end
 
 def display_score(dealer_total, player_total)
-  prompt " Dealer #{dealer_total} Player #{player_total}"
+  prompt " Dealer #{dealer_total} Player #{player_total} #{player_total.sum}"
 end
 
-def calculate_two_cards_ace(card_total)
+def calculate_two_card_ace(card_total)
   ace_value = [11, 1]
-  nil_count = card_total.select { |value| value.nil? }
+  ace_count = card_total.select { |value| value.nil? }
   index = card_total.index(nil)
 
-  if nil_count.count > 1
+  if ace_count.count > 1
     2.times { |i| card_total[i] = ace_value[i] }
   else
     total = card_total.compact.sum
@@ -116,7 +113,7 @@ def calculate_two_cards_ace(card_total)
   end
 end
 
-def calculate_single_card_ace(drawed_card, card_total)
+def calculate_single_card_ace(card_total, drawed_card)
   total = card_total.sum
 
   if total > 10
@@ -131,10 +128,10 @@ def calculate_bust(dealer_total, player_total)
   player = player_total.sum
 
   if player > 21
-    prompt "Bust! Dealer Wins\n Dealers Cards #{dealer_total}"
+    puts "\n\n BUST! Dealer Wins\n\n Dealers Cards #{dealer_total}"
     exit
   elsif dealer > 21
-    prompt "Bust! Player Wins!\n Dealers Cards #{dealer_total}"
+    puts "\n BUST! Player Wins!\n\n Dealers Cards #{dealer_total}"
     exit
   end
 end
@@ -144,11 +141,11 @@ def calculate_winner(dealer_total, player_total)
   player = player_total.sum
 
   if player <= 21 && player > dealer 
-    prompt "Player Wins!!"
+    puts "\n Player Wins!!"
   elsif dealer <= 21 && dealer > player
-    prompt "The Dealer Wins!!"
+    puts "\n\n The Dealer Wins!!"
   else
-    prompt "Its a Tie!"
+    puts "Its a Tie!"
   end
 end
 
@@ -174,11 +171,11 @@ loop do
 
   if draw_count == 4 
     dealer_total, player_total = convert_face_to_digit([dealer_cards,player_cards])
-    calculate_two_cards_ace(player_total) if player_total.include?(nil)
-    calculate_two_cards_ace(dealer_total) if dealer_total.include?(nil)
+    calculate_two_card_ace(player_total) if player_total.include?(nil)
+    calculate_two_card_ace(dealer_total) if dealer_total.include?(nil)
   else 
     card_total = convert_face_to_digit([drawed_card])
-    calculate_single_card_ace(card_total, player_total) if card_total.flatten.include?(nil)
+    calculate_single_card_ace(player_total, card_total) if card_total.flatten.include?(nil)
     add_to_total(player_total, card_total)
   end
 
@@ -197,15 +194,15 @@ loop do
 
   drawed_card = draw_card(arr_face, arr_suit, 1)
   card_total = convert_face_to_digit([drawed_card])
+  calculate_single_card_ace(dealer_total, card_total)
   add_to_total(dealer_total, card_total)
   hidden_total = hide_card(dealer_total)
-  convert_ace(player_total, dealer_total)
 
   display_deck(dealer_cards, player_cards)
   display_score(hidden_total, player_total)
   calculate_bust(dealer_total, player_total)
 end
-puts
-prompt "Dealers Cards #{dealer_total}"
 calculate_winner(dealer_total, player_total)
 
+puts
+prompt "Dealers Cards #{dealer_total} #{dealer_total.sum}"
