@@ -1,5 +1,4 @@
-#require "pry"
-#require "pry-byebug"
+require "pry"
 
 WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # colums
@@ -70,23 +69,22 @@ end
 def insert_delimeter(brd)
   squares_array = empty_squares(brd)
   size = squares_array.size
-  size > 1 ? size.join(", ").insert(-2, "or "): size.join("")
+
+  if size > 1
+    squares_array.join(", ").insert(-2, "or ")
+  else
+    squares_array.join("")
+  end
 end
 
 def find_at_risk_square(line, brd, marker)
   if brd.values_at(*line).count(marker) == 2
-    brd.select{ |k, v| line.include?(k) && v == INITIAL_MARKER }.keys.first
-  else
-    nil
+    brd.select { |k, v| line.include?(k) && v == INITIAL_MARKER }.keys.first
   end
 end
 
 def find_fifth_square(brd)
-  if brd.values_at(5).include?(" ")
-    brd.keys[4]
-  else
-    nil
-  end
+  brd.keys[4] if brd.values_at(5).include?(" ")
 end
 
 def player_places_piece!(brd)
@@ -102,7 +100,7 @@ def player_places_piece!(brd)
   brd[square] = PLAYER_MARKER
 end
 
-def computer_places_piece!(brd)
+def cpu_places_piece!(brd)
   square = nil
 
   WINNING_LINES.each do |line|
@@ -117,14 +115,13 @@ def computer_places_piece!(brd)
     end
   end
 
-  if !square
-    square = find_fifth_square(brd)
-  end
+  computer_goes_first(brd, square) if !square
+  brd[square] = COMPUTER_MARKER
+end
 
-  if !square
-    square = empty_squares(brd).sample
-  end
-
+def computer_goes_first(brd, square)
+  square = find_fifth_square(brd) if !square
+  square = empty_squares(brd).sample if !square
   brd[square] = COMPUTER_MARKER
 end
 
@@ -172,17 +169,21 @@ def display_round_winner(brd)
   prompt someone_won?(brd) ? "#{detect_winner(brd)} Won!" : "It's a tie!"
 end
 
-def display_winner(user, cpu)
+def display_winner(user)
   prompt user > 2 ? "User Wins The GAME!" : "Computer Wins The GAME!"
 end
 
-def play_again?()
+def play_again?
   prompt "Play again? (y or no)"
-  answer = gets.chomp
+  gets.chomp
 end
 
 def place_piece!(brd, current_player)
-  current_player == "Player" ? player_places_piece!(brd) : computer_places_piece!(brd)
+  if current_player == "Player"
+    player_places_piece!(brd)
+  else
+    cpu_places_piece!(brd)
+  end
 end
 
 def alternate_player(current_player)
@@ -200,35 +201,33 @@ def player_or_computer(choice)
   end
 end
 
+prompt "Welcome to Tic Tac Toe!"
+prompt "First To 5, Wins The Game!"
+puts
+
 loop do
-  prompt "Welcome to Tic Tac Toe!"
-  prompt "First To 5, Wins The Game!"
-  loop do
-    board = initialize_board
-    choice = who_goes_first?()
-    break if choice == 4
-    current_player = player_or_computer(choice)
-    display_on_screen(board, user_count, cpu_count, game_count, current_player)
-    display_round_winner(board)
-
-    user_count, cpu_count = add_count(board, user_count, cpu_count)
-    game_count = add_round(game_count)
-
-    if user_count >= 5 || cpu_count >= 5
-      display_winner(user_count, cpu_count) 
-    else
-      next
-    end
-
-    answer = play_again?()
-    if answer.include?("y")
-      cpu_count, user_count, game_count = 0, 0, 1
-      next
-    elsif answer.include?("n")
-      break
-    end
+  board = initialize_board
+  choice = who_goes_first?
+  break if choice == 4
+  current_player = player_or_computer(choice)
+  display_on_screen(board, user_count, cpu_count, game_count, current_player)
+  display_round_winner(board)
+  user_count, cpu_count = add_count(board, user_count, cpu_count)
+  game_count = add_round(game_count)
+  if user_count >= 5 || cpu_count >= 5
+    display_winner(user_count)
+  else
+    next
   end
-  break
+  answer = play_again?
+  if answer.include?("y")
+    user_count = 0
+    game_count = 0
+    cpu_count = 1
+    next
+  elsif answer.include?("n")
+    break
+  end
 end
 
 prompt "Thanks For Playing TicTacToe Goodbye!"
