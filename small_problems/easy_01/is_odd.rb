@@ -1,5 +1,5 @@
 def is_odd?(num)
-  p num % 2 == 1
+  num % 2 == 1
 end
 
 def is_odd_two?(num)
@@ -20,5 +20,3 @@ p is_odd_two?(-17)    # => false
 p is_odd_two?(-8)    # => true
 p is_odd_two?(0)    # => true
 p is_odd_two?(7)    # => false
-irb
-
