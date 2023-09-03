@@ -1,12 +1,8 @@
 def bubble_sort!(arr, count)
-  (0...arr.size).each do |start_idx|
-    ((start_idx + 1)...(arr.size - count)).each do |end_idx|
-      if arr[start_idx] > arr[end_idx]
-        arr[start_idx], arr[end_idx] = arr[end_idx], arr[start_idx]
-        break
+  (0...arr.size - 1).each do |start_idx|
+      if arr[start_idx] > arr[start_idx + 1]
+        arr[start_idx], arr[start_idx + 1] = arr[start_idx + 1], arr[start_idx]
       end
-      break
-    end
   end
   arr
 end
