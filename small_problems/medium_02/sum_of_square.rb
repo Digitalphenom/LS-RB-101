@@ -9,9 +9,10 @@
 
   def sum_square_difference(num)
     array = (1..num).to_a
-    sum_of_array = array.inject(:+)
-    sum_square = array.map { |num| num**2}.sum
-    sum_of_array**2 - sum_square
+    square_of_sum = array.inject(:+) **2
+    sum_of_square = array.map { |num| num**2}.sum
+
+    square_of_sum - sum_of_square
   end
   
   p sum_square_difference(3)
