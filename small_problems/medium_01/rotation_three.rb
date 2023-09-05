@@ -54,3 +54,28 @@ def max_rotation(digits)
 end
 
 # I found it easier to solve it without using the previous methods. not sure if this is the best approach however.
+
+
+#⋄≂≂▫≂≂▫≂≂▫≂▫≂⋄—◟ Alternative approach using methods ◞—⋄≂▫≂≂≂▫≂▫≂≂▫≂≂▫≂≂≂⋄
+
+def rotate_array(arr)
+  arr[1..-1] + [arr[0]]
+end
+
+def rotate_rightmost_digits(nums, n)
+ digit_arr = nums.digits.reverse
+ sliced = digit_arr[-n..-1] #  0...-n..-1
+ 
+ (digit_arr[0...-n] + rotate_array(sliced)).join.to_i #  0...-n..-1
+end
+
+def max_rotation(number)
+  number_digits = number.to_s.size
+  number_digits.downto(2) do |n|
+    p n
+    number = rotate_rightmost_digits(number, n)
+  end
+  number
+end
+
+p max_rotation(735291)
