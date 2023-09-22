@@ -52,3 +52,22 @@ def interleave(arr1, arr2)
   arr1.zip(arr2).flatten
 end
 
+
+# alternative solution
+
+def interleave(arr1, arr2)
+  flag = true
+  result = []
+
+  until arr1.empty? && arr2.empty?
+    if flag
+      result << arr1.shift
+      flag = false
+    else
+      result << arr2.shift
+      flag = true
+    end
+  end
+  result
+end
+
