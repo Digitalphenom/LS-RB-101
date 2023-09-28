@@ -1,50 +1,28 @@
-def prompt(enter)
-  Kernel.puts("=>#{enter}")
-end
-total = []
-num_collection = ["1st","2nd","3rd","4th","5th"]
-
-num_collection.each do |num|
-  prompt("Enter the #{num} number:")
-  numbers = gets.chomp.to_i
-  total << numbers
-end
-prompt("Enter the last number:")
-final_num = gets.chomp.to_i
-
-if total.include?(final_num)
-  prompt("The number #{final_num} appears in #{total}.")
-else
-  prompt("The number #{final_num} is not included in #{total}.")
-end
-
-#---------------------------
-# 12/20/22 alternate approach
-
-def assign_ordinal(num)
-  num = num.to_s
-  case num
-  when "1" ; num << "st"
-  when "2" ; num << "nd"
-  when "3" ; num << "rd"
-  else     ; num << "th"
+def insert_ordinal(indx, range, last)
+  ordinal = case indx
+  when 1 then "st"
+  when 2 then "nd"
+  when 3 then "rd"
+  when (3..last) then "th"
+  when range.last then "last"
   end
 end
 
-num = 0 
-arr = []
+def output_result(result)
+  result = result.map(&:to_i)
+  last_num = result[-1]
+  appears = result[0...-1].include?(last_num) ? "appears" : "does not appear"
 
-until arr.count == 5
-  num += 1
-  puts "Enter the #{assign_ordinal(num)} number:"
-  answer = gets.chomp
-  arr << answer
+  puts "The number #{last_num} #{appears} in #{result[0...-1]}" 
 end
 
-puts "Enter the last number:"
-last_num = gets.chomp
+sequence = (1..8).to_a
+result = []
 
-sixth_num = arr.include?(last_num) ? last_num << " appears" : last_num << " does not appear"
-arr = arr.map { |num| num.to_i }
+sequence.each do |i|
+  ordinal = insert_ordinal(i, sequence, sequence[-2])
+  puts sequence.last == i ? "Enter the #{ordinal} number" : "Enter the #{i}#{ordinal} number"
+  result << gets.chomp
+end
 
-puts "The number #{sixth_num} in #{arr}"
+puts output_result(result)
