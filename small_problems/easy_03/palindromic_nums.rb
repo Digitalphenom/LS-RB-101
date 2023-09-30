@@ -1,14 +1,6 @@
-require 'pry'
+
 def palindromic_number?(num)
-  reversed = []
-  num = num.digits.reverse
-  count = num.size
-  loop do
-    count -= 1
-    reversed << num[count]
-    break if count == 0
-  end
-  reversed == num
+  num.to_s.reverse == num.to_s
 end
 
 p palindromic_number?(34543) 

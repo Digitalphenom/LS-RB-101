@@ -1,20 +1,13 @@
 def palindrome?(str)
   reversed = []
-  chars = str.chars
-  count = str.size
-  loop do
-    count -= 1
-    reversed << chars[count]
-    break if count == 0
+  (str.size-1).downto(0) do |idx|
+    reversed << str[idx]
   end
-  joined = reversed.join("")
-  joined
-  joined == str
+  reversed.join == str
 end
 
 def real_palindrome?(str)
-  str = str.downcase.gsub(/[^a-zA-Z0-9]/, "")
-  str
+  str = str.downcase.delete("^a-zA-Z0-9")
   palindrome?(str)
 end
 
