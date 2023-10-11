@@ -1,24 +1,16 @@
-# goal
-# take a positive (n) integer
-# display a right triangle whose sides each have (n) stars.
+=begin
+Generate a sequence from 1 upto input N, output (idx * "*") upto N
+multiply "*" times current number
+Chaing on empty space " " *  N - 1
+decrement by 1
 
-# strategy
-# for every line add one * in increments of (+=1) up to (n)
-# for every line add (n) spaces minus (-=1) up to (n)
+=end
+def triangle(n)
+  space = n - 1
 
-# tactics 
-# use a while loop to append spaces and stars on each line until (n) 
-
-def triangle(num)
-  count = 0
-  count_two = num
-  asterisk = "*"
-  space = " "
-
-  until count == num
-    puts "#{space * count_two }#{asterisk * count}"
-    count += 1
-    count_two -= 1
+  1.upto(n) do |i|
+    puts "#{" " * space} #{"*" * i }"
+    space -= 1
   end
 end
 

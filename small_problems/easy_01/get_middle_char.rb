@@ -6,8 +6,8 @@
 # to find the middle (two) values of a given set of even value. count the total size of chars divide by 2 to get the middle right value. subtraxt by 1 to get the middle left value.
 
 def center_of(str)
-  size = str.size
-  str.size.odd? ? str[size / 2] : str[(size / 2) - 1] + str[size / 2]
+  half = str.size / 2
+  str.size.even? ? str[half - 1..half] : str[half] 
 end
 
 p center_of("I love ruby")

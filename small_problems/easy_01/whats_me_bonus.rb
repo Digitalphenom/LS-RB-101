@@ -1,6 +1,6 @@
 
 def calculate_bonus(salary, bonus)
-  if bonus == true
+  if bonus
     salary / 2
   else
     0

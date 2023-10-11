@@ -4,11 +4,13 @@
 # create a box use string interpolation within the box
 
 def print_in_box(str)
-  puts "+-#{"-" * str.size}-+" 
+  horizontals = "+-#{"-" * str.size}-+" 
+
+  puts horizontals
   puts "| #{" " * str.size} |" 
   puts "| #{str} |" 
   puts "| #{" " * str.size} |" 
-  puts "+-#{"-" * str.size}-+" 
+  puts horizontals
 end
 
 p print_in_box("hello world")
