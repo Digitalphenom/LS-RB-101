@@ -1,10 +1,8 @@
 
 def string_to_integer(string)
   integer = 0
-  string.each_char do |char|
-    integer = integer * 10 + char.ord - "0".ord
-    end
-    integer
+  string.each_char { |char| integer = integer * 10 + char.ord - "0".ord }
+  integer
 end
 
 p string_to_integer('4321') == 4321
