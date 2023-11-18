@@ -7,14 +7,15 @@ def bubble_sort!(arr, count)
   arr
 end
 
-array = [3, 5]
-p array.size.times { |i| bubble_sort!(array, i) }
-p array == [3, 5]
+#array = [3, 5]
+#p array.size.times { |i| bubble_sort!(array, i) }
+#p array == [3, 5]
+#
 
 array = [7, 4, 2, 1, 6]
-array.size.times { |i| bubble_sort!(array, i) }
+array.size.times { |i| p bubble_sort!(array, i) }
 p array == [1, 2, 4, 6, 7]
-
-array = %w(Sue Pete Alice Tyler Rachel Kim Bonnie)
-array.size.times { |i| bubble_sort!(array, i) }
-p array #== %w(Alice Bonnie Kim Pete Rachel Sue Tyler)
+# 
+# array = %w(Sue Pete Alice Tyler Rachel Kim Bonnie)
+# array.size.times { |i| bubble_sort!(array, i) }
+# p array #== %w(Alice Bonnie Kim Pete Rachel Sue Tyler)
