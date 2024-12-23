@@ -18,6 +18,19 @@ class Calender
     div_by_four?
   end
 
+  # additional exploration
+  #def gregorian?
+  #  if div_by_four?
+  #    if div_by_one_hundred
+  #      return true if div_by_four_hundred
+  #      return false
+  #    else
+  #      return true
+  #    end
+  #  end
+  #  false
+  #end
+
   private 
 
   def div_by_four?
