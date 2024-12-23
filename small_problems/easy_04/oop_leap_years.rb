@@ -13,20 +13,12 @@ class Calender
   end
 
   def gregorian?
-    return true if all_three?
-    return false if two?
+    return true if div_by_four_hundred
+    return false if div_by_one_hundred
     div_by_four?
   end
 
   private 
-
-  def all_three?
-    (div_by_four? && div_by_one_hundred && div_by_four_hundred)
-  end
-
-  def two?
-    (div_by_four? && div_by_one_hundred)
-  end
 
   def div_by_four?
     date.year % 4 == 0
