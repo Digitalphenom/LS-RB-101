@@ -9,12 +9,20 @@ class Calender
   end
 
   def self.leap_year?(year)
-    new(Dates.new(year)).gregorian?
+    if year < 1751 
+      new(Dates.new(year)).julian?
+    else
+      new(Dates.new(year)).gregorian?
+    end
   end
 
   def gregorian?
     return true if div_by_four_hundred
     return false if div_by_one_hundred
+    div_by_four?
+  end
+
+  def julian?
     div_by_four?
   end
 
@@ -54,17 +62,17 @@ class Dates
   end
 end
 
-p Calender.leap_year?(1) == false
-p Calender.leap_year?(2015) == false
-p Calender.leap_year?(240001) == false
+p Calender.leap_year?(100) == true
+p Calender.leap_year?(1700) == true
 puts
 p Calender.leap_year?(2016) == true
+p Calender.leap_year?(2015) == false
 p Calender.leap_year?(2100) == false
 p Calender.leap_year?(2400) == true
 p Calender.leap_year?(240000) == true
+p Calender.leap_year?(240001) == false
 p Calender.leap_year?(2000) == true
 p Calender.leap_year?(1900) == false
 p Calender.leap_year?(1752) == true
-p Calender.leap_year?(1700) == false
-p Calender.leap_year?(100) == false
+p Calender.leap_year?(1) == false
 p Calender.leap_year?(400) == true
